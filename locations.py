@@ -58,7 +58,8 @@ def init_locations():
         "certification posters.",
         item_descriptions={
             'methodology': "A laminated CompTIA Methodology Sheet is pinned to the cubicle wall.",
-            'coffee_it_office': "There's a fresh cup of coffee on your desk, still steaming."
+            'coffee_it_office': "There's a fresh cup of coffee on your desk, still steaming.",
+            'laptop': "A sealed laptop box sits on the corner of your desk - looks like a recent delivery."
         },
         objects={
             'desk': {

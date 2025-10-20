@@ -144,7 +144,7 @@ class DesktopMenu:
         print("- Printer power and hardware checked (operational)")
         print("- Print spooler service verified (running)")
         print("- No similar reports from other users")
-        print("- User has client meeting at 10:00 AM")
+        print("- User has important client meeting")
         print()
         print("STATUS: Escalated to IT Support")
         print()
@@ -496,10 +496,14 @@ class DesktopMenu:
             print("You need to:")
             print(f"{'✓' if game_state.steps_complete[4] else '□'} Create plan (Step 4)")
             print(f"{'✓' if game_state.told_karen_about_network and game_state.karen_problem_fixed else '□'} Implement solution (Step 5)")
-            print(f"{'✓' if game_state.karen_verified_working else '□'} Verify functionality (Step 6)")
+            print(f"{'✓' if game_state.steps_complete[6] else '□'} Verify functionality (Step 6)")
             print()
             print("Steps 5 and 6 happen in the world, not at your desktop.")
-            
+            print()
+            if game_state.karen_problem_fixed and not game_state.steps_complete[6]:
+                print("Note: After fixing Karen's problem, you can verify the solution")
+                print("or skip verification (with reduced points).")
+
             return
             
         # Complete Step 7
@@ -539,7 +543,7 @@ class DesktopMenu:
             print("✓ Network printing functional")
             print("✓ File shares accessible")
             print("✓ Internal applications accessible")
-            print("✓ User made 10:00 AM meeting")
+            print("✓ User able to complete work")
         else:
             print("⚠ Verification skipped")
         print()

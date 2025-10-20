@@ -59,8 +59,8 @@ class Ian(NPC):
                 "I can't figure it out."))
             print()
             print(format_dialogue("Ian",
-                "I escalated it to you because, well... it's weird. And she has a "
-                "client meeting at 10 AM, so there's time pressure."))
+                "I escalated it to you because, well... it's weird. And she has an "
+                "important client meeting coming up."))
             print()
             print(format_dialogue("Ian",
                 "Her office is in Accounting. East from the hallway. Good luck!"))
@@ -131,8 +131,7 @@ class Karen(NPC):
             # First conversation
             print(format_dialogue("Karen",
                 "Oh, thank goodness. Are you from IT? Please tell me you can "
-                "fix this. I have a client meeting in... " +
-                ("less than 15 minutes!" if game_state.minutes >= 45 else "soon!")))
+                "fix this. I need to print reports for my client meeting!"))
             print()
             print(format_dialogue("Karen",
                 "I can't print! I've been trying to print my quarterly report "
@@ -358,10 +357,21 @@ class Karen(NPC):
             if choice == 3:  # Leave
                 return False
             elif choice == 1:
+                # Full verification
                 self.verify_functionality(game_state)
             else:
+                # Skipped verification - auto-complete with reduced points
                 print(format_dialogue("Karen",
                     "Okay, thanks again!"))
+                print()
+
+                # Auto-complete Step 6 with reduced points
+                if not game_state.steps_complete[6]:
+                    game_state.steps_complete[6] = True
+                    game_state.add_score(35, "Step 6: Verification Skipped (Partial Credit)")
+                    print()
+                    print("(You skipped thorough verification. Best practice is to")
+                    print("verify all functionality, but the core issue is resolved.)")
 
             return True
 
@@ -438,6 +448,19 @@ class Marcus(NPC):
         print_boxed("TALKING TO MARCUS")
         print()
 
+        # Check if Marcus has the laptop and is distracted
+        if game_state.check_flag('marcus_has_laptop'):
+            print(format_dialogue("Marcus",
+                "Hold on, I'm configuring this new laptop..."))
+            print()
+            print("*Marcus is completely focused on setting up his new laptop*")
+            print()
+            print("(He's totally distracted right now.)")
+            print()
+            choices = ["Leave conversation"]
+            choice = display_choices(choices)
+            return
+
         # Conversation loop
         while True:
             if game_state.karen_problem_fixed:
@@ -453,20 +476,63 @@ class Marcus(NPC):
                     "How's it going with Karen's ticket? Need any help?"))
                 print()
 
-                choices = ["I'm working on it", "Can you give me more time?", "Leave conversation"]
+                # Build choices dynamically based on inventory
+                choices = ["I'm working on it", "Can you give me more time?"]
+
+                # Add laptop option if player has it
+                has_laptop = 'laptop' in game_state.inventory
+                if has_laptop:
+                    choices.append("Give the new laptop to Marcus")
+
+                choices.append("Leave conversation")
+
                 choice = display_choices(choices)
                 print()
 
-                if choice == 3:  # Leave
+                # Adjust choice handling based on dynamic menu
+                leave_choice = len(choices)  # "Leave" is always last
+                laptop_choice = len(choices) - 1 if has_laptop else None  # Laptop option is second-to-last if present
+
+                if choice == leave_choice:  # Leave
                     break
+                elif choice == laptop_choice and has_laptop:  # Give laptop
+                    self.give_laptop(game_state, items)
+                    # Continue conversation after giving laptop
                 elif choice == 1:
                     print(format_dialogue("Marcus",
                         "Good. Keep me posted. Remember the methodology!"))
                     print()
-                else:
+                elif choice == 2:
                     print(format_dialogue("Marcus",
-                        "The meeting is at 10 AM. Do your best, but keep me informed."))
+                        "Do your best, and keep me informed."))
                     print()
+
+    def give_laptop(self, game_state, items):
+        """Handle giving the laptop to Marcus"""
+        print()
+        print("You hand the new laptop to Marcus.")
+        print()
+        print(format_dialogue("Marcus",
+            "Oh! A new laptop? For me? Excellent!"))
+        print()
+        print(format_dialogue("Marcus",
+            "My current one has been running so slow. This is perfect timing!"))
+        print()
+        print("*Marcus eagerly opens the box and starts setting up the laptop*")
+        print()
+        print(format_dialogue("Marcus",
+            "Let me just get this configured... This will take a few minutes..."))
+        print()
+        print("*He becomes completely absorbed in the setup process*")
+        print()
+        print("(Marcus is now thoroughly distracted. He's not paying attention to anything else.)")
+
+        # Remove laptop from inventory
+        game_state.inventory.remove('laptop')
+        game_state.set_flag('marcus_has_laptop', True)
+        game_state.add_score(25, "Helped Marcus with laptop")
+        game_state.advance_time(3)
+        print()
 
 
 class William(NPC):
