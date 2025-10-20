@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Help Desk Hero - Game 1 Launcher
+# Downtime - Game 1 Launcher
 # Quick start script for the game
 
 echo "╔════════════════════════════════════════════════════╗"
-echo "║     HELP DESK HERO: GAME 1                         ║"
+echo "║     DOWNTIME: GAME 1                               ║"
 echo "║     Karen's Login Problem                          ║"
 echo "╚════════════════════════════════════════════════════╝"
 echo ""

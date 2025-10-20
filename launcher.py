@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Graphical Launcher for Help Desk Hero
+Graphical Launcher for Downtime
 Opens a GUI window with a menu before launching the game
 """
 
@@ -11,10 +11,10 @@ import sys
 import os
 
 
-class HelpDeskHeroLauncher:
+class DowntimeLauncher:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("Help Desk Hero")
+        self.root.title("Downtime")
         self.root.geometry("600x500")
         self.root.resizable(False, False)
 
@@ -44,7 +44,7 @@ class HelpDeskHeroLauncher:
         # Title
         title_label = tk.Label(
             title_frame,
-            text="HELP DESK HERO",
+            text="DOWNTIME",
             font=('Consolas', 28, 'bold'),
             fg='#ecf0f1',
             bg='#34495e'
@@ -197,7 +197,7 @@ class HelpDeskHeroLauncher:
     def show_about(self):
         """Show about/credits"""
         about = (
-            "HELP DESK HERO: GAME 1\n\n"
+            "DOWNTIME: GAME 1\n\n"
             "An educational text adventure teaching\n"
             "IT troubleshooting methodology.\n\n"
             "Based on CompTIA A+ troubleshooting principles.\n\n"
@@ -211,7 +211,7 @@ class HelpDeskHeroLauncher:
             "in a fun, interactive environment!"
         )
 
-        messagebox.showinfo("About Help Desk Hero", about)
+        messagebox.showinfo("About Downtime", about)
 
     def exit_launcher(self):
         """Exit the launcher"""
@@ -225,7 +225,7 @@ class HelpDeskHeroLauncher:
 
 def main():
     """Entry point for launcher"""
-    launcher = HelpDeskHeroLauncher()
+    launcher = DowntimeLauncher()
     launcher.run()
 
 

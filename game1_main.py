@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Game 1: Karen's Login Problem - Help Desk Training Game
+Game 1: Karen's Login Problem - Downtime
 A text-based adventure teaching CompTIA troubleshooting methodology
 """
 
@@ -33,7 +33,7 @@ class Game:
         
     def show_intro(self):
         """Display game introduction"""
-        print_boxed("HELP DESK HERO: GAME 1")
+        print_boxed("DOWNTIME: GAME 1")
         print("\n" + "="*70)
         print("           KAREN'S PRINTING PROBLEM")
         print("           A Help Desk Training Adventure")
@@ -165,6 +165,11 @@ class Game:
                 self.use_item(' '.join(args))
             else:
                 print("Use what?")
+        elif verb in ['pour', 'spill', 'dump']:
+            if args:
+                self.handle_pour_command(' '.join(args))
+            else:
+                print("Pour what?")
         elif verb in ['read']:
             if args:
                 self.read_item(' '.join(args))
@@ -314,6 +319,11 @@ class Game:
                 break
 
         if item:
+            # Special case: Using coffee in server room
+            if 'coffee' in item.id.lower() and self.state.current_location == 'server_room':
+                self.pour_coffee_on_servers(item)
+                return
+
             print()
             item.use(self.state)
 
@@ -412,6 +422,173 @@ class Game:
         else:
             print()
             print("You decide not to buy anything right now.")
+
+    def handle_pour_command(self, item_name):
+        """Handle the pour command"""
+        # Check if player has coffee in inventory
+        coffee_item = None
+        for item_id in self.state.inventory:
+            item = self.items[item_id]
+            if 'coffee' in item.id.lower() and item_name.lower() in item.name.lower():
+                coffee_item = item
+                break
+
+        # If no specific coffee found, check for any coffee-like command
+        if not coffee_item:
+            for item_id in self.state.inventory:
+                item = self.items[item_id]
+                if 'coffee' in item.id.lower():
+                    coffee_item = item
+                    break
+
+        if coffee_item and self.state.current_location == 'server_room':
+            # Special handling for server room
+            self.pour_coffee_on_servers(coffee_item)
+        elif coffee_item:
+            print()
+            print("You pour the coffee onto the floor.")
+            print("What a waste of perfectly good coffee.")
+            print()
+            print("Now you just have a mess and no coffee.")
+            # Remove coffee from inventory
+            if coffee_item.id in self.state.inventory:
+                self.state.inventory.remove(coffee_item.id)
+        else:
+            print()
+            print("You don't have any coffee to pour.")
+
+    def pour_coffee_on_servers(self, coffee_item):
+        """Handle the catastrophic decision to pour coffee on server racks"""
+        print()
+        print_boxed("⚠️  CRITICAL ERROR IMMINENT  ⚠️")
+        print()
+        print("You stand in front of the humming server racks,")
+        print("holding your cup of coffee.")
+        print()
+        print("A terrible idea crosses your mind...")
+        print()
+        print("Pour coffee on the servers? This will end VERY badly.")
+        print()
+        print("Type 'YES I WANT TO FRY THE SERVERS' to confirm this career-ending decision.")
+        print("(Or just press Enter to reconsider your life choices)")
+        print()
+
+        response = input("> ").strip()
+
+        if response == "YES I WANT TO FRY THE SERVERS":
+            # Remove coffee from inventory before the chaos
+            if coffee_item.id in self.state.inventory:
+                self.state.inventory.remove(coffee_item.id)
+
+            clear_screen()
+            print()
+            print_boxed("💀 CATASTROPHIC FAILURE 💀")
+            print()
+            print("You slowly tilt your cup of coffee toward the server rack...")
+            print()
+            input("Press Enter to continue your descent into chaos...")
+            print()
+            print("The hot liquid splashes across the authentication server.")
+            print()
+            print("⚡ *CRACK* *POP* *SIZZLE* ⚡")
+            print()
+            print("Blue sparks erupt from the rack!")
+            print("Smoke starts billowing from the servers!")
+            print()
+            input("Press Enter...")
+            print()
+            print("🔥 The fire alarm begins wailing! 🔥")
+            print()
+            print("Emergency systems kick in:")
+            print("- Sprinkler system: ACTIVATED")
+            print("- Fire suppression: ACTIVATED")
+            print("- All servers: SHUTDOWN")
+            print("- Your career: TERMINATED")
+            print()
+            input("Press Enter...")
+            print()
+            print("The entire company network goes dark.")
+            print("Every computer in the building loses connection.")
+            print("Karen's printing problem is now EVERYONE'S problem.")
+            print()
+            print("You hear running footsteps in the hallway...")
+            print()
+            input("Press Enter...")
+            clear_screen()
+            print()
+            print_separator()
+            print("MARCUS ARRIVES")
+            print_separator()
+            print()
+            print('Marcus: "WHAT HAVE YOU DONE?!"')
+            print()
+            print('Marcus: "That was our ENTIRE infrastructure!"')
+            print('        "The authentication server! The file servers!"')
+            print('        "DO YOU HAVE ANY IDEA HOW MUCH DATA WE JUST LOST?!"')
+            print()
+            input("Press Enter...")
+            print()
+            print('Marcus: "This is your FIRST DAY!"')
+            print('        "You were supposed to fix a PRINTER!"')
+            print('        "Not DESTROY THE ENTIRE COMPANY!"')
+            print()
+            print("Security escorts you out of the building.")
+            print("Your badge access is revoked before you reach the parking lot.")
+            print()
+            input("Press Enter for final results...")
+            clear_screen()
+            print()
+            print_separator()
+            print("🔥 GAME OVER: SERVER ROOM DISASTER 🔥")
+            print_separator()
+            print()
+            print("Final Score: -9999 (New record!)")
+            print(f"Time Employed: {self.state.minutes} minutes")
+            print(f"Servers Destroyed: ALL OF THEM")
+            print(f"Cost of Damage: $847,000")
+            print(f"Lives Ruined: 1 (yours)")
+            print()
+            print("═" * 60)
+            print("ACHIEVEMENTS UNLOCKED:")
+            print("═" * 60)
+            print("🏆 'Speedrun Termination' - Fired in under 60 minutes")
+            print("🏆 'Coffee Catastrophe' - Creative use of beverages")
+            print("🏆 'Wrong Kind of Downtime' - Took down the entire network")
+            print("🏆 'First Day, Worst Day' - Maximum damage, minimum time")
+            print("🏆 'IT Legend' - You'll be used as a cautionary tale for years")
+            print()
+            print("═" * 60)
+            print()
+            print("The company adds a new rule to the employee handbook:")
+            print('"NO LIQUIDS WITHIN 10 FEET OF SERVER RACKS"')
+            print()
+            print("Karen never gets her printing problem fixed.")
+            print("But honestly, that's the least of anyone's problems now.")
+            print()
+            print("You are permanently banned from working in IT.")
+            print("Also from this office building.")
+            print("And probably this city.")
+            print()
+            print("Legend says on quiet nights, you can still hear")
+            print("the faint sound of Marcus screaming...")
+            print()
+            print_separator()
+            print("Thanks for playing Downtime!")
+            print("(In the most literal sense possible)")
+            print_separator()
+            print()
+
+            # Exit the game
+            import sys
+            sys.exit(0)
+        else:
+            print()
+            print("You pause and reconsider.")
+            print()
+            print("That would have been... really, REALLY bad.")
+            print("You decide to keep your coffee and your job.")
+            print()
+            print("Crisis averted. Your career lives to see another day.")
 
     def examine(self, target):
         """Examine something in detail"""
@@ -567,7 +744,7 @@ def main():
     game = Game()
     game.start()
     
-    print("\nThanks for playing Help Desk Hero: Game 1!")
+    print("\nThanks for playing Downtime: Game 1!")
     print("You've learned the CompTIA troubleshooting methodology.\n")
 
 

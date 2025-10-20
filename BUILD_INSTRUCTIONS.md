@@ -1,4 +1,4 @@
-# Building Help Desk Hero with PyInstaller
+# Building Downtime with PyInstaller
 
 This guide explains how to package the game into a standalone executable that can run without Python installed.
 
@@ -17,7 +17,7 @@ Simply double-click `build.bat` or run:
 build.bat
 ```
 
-The executable will be created at: `dist\HelpDeskHero.exe`
+The executable will be created at: `dist\Downtime.exe`
 
 ### Linux/Mac
 
@@ -28,7 +28,7 @@ chmod +x build.sh
 ./build.sh
 ```
 
-The executable will be created at: `dist/HelpDeskHero`
+The executable will be created at: `dist/Downtime`
 
 ## Manual Build
 
@@ -51,14 +51,14 @@ pyinstaller build_game.spec --clean
 **Option B: Quick one-liner**
 
 ```bash
-pyinstaller --onefile --name HelpDeskHero game1_main.py
+pyinstaller --onefile --name Downtime game1_main.py
 ```
 
 ### 3. Find Your Executable
 
 The executable will be in the `dist/` folder:
-- **Windows**: `dist\HelpDeskHero.exe`
-- **Linux/Mac**: `dist/HelpDeskHero`
+- **Windows**: `dist\Downtime.exe`
+- **Linux/Mac**: `dist/Downtime`
 
 ## Distribution
 
@@ -93,7 +93,7 @@ Documentation files (*.md) are NOT packaged into the executable. They're for dev
 
 ### Changing the Executable Name
 
-Edit `build_game.spec` and change the `name='HelpDeskHero'` line to your preferred name.
+Edit `build_game.spec` and change the `name='Downtime'` line to your preferred name.
 
 ### One-File vs One-Folder
 

@@ -27,7 +27,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='HelpDeskHero',
+    name='Downtime',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

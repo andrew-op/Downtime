@@ -1,11 +1,11 @@
 @echo off
-REM Build Help Desk Hero with Terminal Menu
-echo Building Help Desk Hero with Terminal Menu...
+REM Build Downtime with Terminal Menu
+echo Building Downtime with Terminal Menu...
 echo.
 
 pyinstaller --clean build_with_terminal_menu.spec
 
 echo.
-echo Build complete! Check the dist folder for HelpDeskHero.exe
+echo Build complete! Check the dist folder for Downtime.exe
 echo.
 pause

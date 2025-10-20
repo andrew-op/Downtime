@@ -1,5 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
-# Build spec for Help Desk Hero with Terminal Menu launcher
+# Build spec for Downtime with Terminal Menu launcher
 
 block_cipher = None
 
@@ -28,7 +28,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='HelpDeskHero',
+    name='Downtime',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

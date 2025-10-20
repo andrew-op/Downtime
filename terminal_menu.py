@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Terminal-based main menu for Help Desk Hero
+Terminal-based main menu for Downtime
 Interactive menu with arrow key navigation
 """
 
@@ -24,7 +24,7 @@ def print_title():
     """Print the game title banner"""
     print()
     print("="*70)
-    print("                     HELP DESK HERO")
+    print("                        DOWNTIME")
     print("              Game 1: Karen's Printing Problem")
     print("="*70)
     print()
@@ -175,13 +175,13 @@ def show_menu():
                 # Return to menu after viewing instructions
             elif selected == 2:  # Exit
                 clear_screen()
-                print("\nThanks for considering Help Desk Hero!")
+                print("\nThanks for considering Downtime!")
                 print("See you next time!\n")
                 return 'exit'
         elif key == 'esc':
             # Allow ESC to exit
             clear_screen()
-            print("\nThanks for considering Help Desk Hero!")
+            print("\nThanks for considering Downtime!")
             print("See you next time!\n")
             return 'exit'
 

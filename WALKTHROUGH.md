@@ -1,4 +1,4 @@
-# Quick Walkthrough Guide - Help Desk Hero: Game 1
+# Quick Walkthrough Guide - Downtime: Game 1
 
 ## Fastest Path to Victory (Optimal Strategy)
 

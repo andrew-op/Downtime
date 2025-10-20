@@ -1,4 +1,4 @@
-# Help Desk Hero: Game 1 - Karen's Printing Problem
+# Downtime: Game 1 - Karen's Printing Problem
 
 A text-based adventure game teaching the CompTIA troubleshooting methodology through an interactive help desk scenario.
 

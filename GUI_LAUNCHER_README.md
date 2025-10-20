@@ -1,4 +1,4 @@
-# GUI Launcher for Help Desk Hero
+# GUI Launcher for Downtime
 
 A graphical main menu launcher has been added to give your game a professional look before the text adventure begins.
 
@@ -33,7 +33,7 @@ The GUI will open, and clicking "PLAY GAME" will launch your text game in the sa
 build_with_gui.bat
 ```
 
-This creates `dist\HelpDeskHero.exe` with the GUI launcher included.
+This creates `dist\Downtime.exe` with the GUI launcher included.
 
 ## Two Build Options
 
@@ -80,7 +80,7 @@ Edit these sections in `launcher.py`:
 ```python
 title_label = tk.Label(
     title_frame,
-    text="HELP DESK HERO",  # Change main title
+    text="DOWNTIME",  # Change main title
     ...
 )
 
