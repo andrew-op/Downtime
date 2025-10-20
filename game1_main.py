@@ -5,6 +5,7 @@ A text-based adventure teaching CompTIA troubleshooting methodology
 """
 
 import sys
+import random
 from game_state import GameState
 from locations import Location, init_locations
 from items import Item, init_items
@@ -177,8 +178,7 @@ class Game:
         elif verb in ['quit', 'exit', 'q']:
             self.quit_game()
         else:
-            print(f"I don't understand '{command}'.")
-            print("Type 'help' for available commands.")
+            self.show_confused_response(command)
             
     def move(self, direction):
         """Move to a new location"""
@@ -408,7 +408,28 @@ class Game:
         if self.state.coffees_consumed > 0 or self.state.redbull_consumed:
             print(f"\nCaffeine Level: {self.state.get_caffeine_level_name()}")
             print(f"Focus Buff: {self.state.get_focus_description()}")
-        
+
+    def show_confused_response(self, command):
+        """Show a humorous response to unrecognized commands"""
+        responses = [
+            f"'{command}'? That's not in my job description.",
+            f"Error 404: Command '{command}' not found. Have you tried turning it off and on again?",
+            f"I'm a help desk tech, not a '{command}' interpreter.",
+            f"'{command}' is not a valid command. Did you mean to file a ticket about that?",
+            f"Hmm, '{command}' doesn't compute. Maybe it needs more coffee?",
+            f"'{command}'? I'll escalate that to someone who understands it.",
+            f"Syntax error: '{command}' is not recognized as a valid help desk action.",
+            f"'{command}'? That sounds like a job for Level 3 support.",
+            f"I tried '{command}', but my computer just stared back at me.",
+            f"'{command}' is beyond my scope of practice. Also, it's not a real command.",
+            f"Permission denied. Just kidding - '{command}' isn't a thing.",
+            f"'{command}'? Let me check the knowledge base... Nope, nothing.",
+            f"You can't '{command}' here. Or anywhere, really.",
+            f"'{command}' failed successfully.",
+            f"I don't speak '{command}'. Try English commands instead."
+        ]
+        print(random.choice(responses))
+
     def show_help(self):
         """Show help text"""
         print()
