@@ -549,14 +549,9 @@ class Game:
             print(f"Lives Ruined: 1 (yours)")
             print()
             print("═" * 60)
-            print("ACHIEVEMENTS UNLOCKED:")
+            print("ACHIEVEMENT UNLOCKED:")
             print("═" * 60)
-            print("🏆 'Speedrun Termination' - Fired in under 60 minutes")
-            print("🏆 'Coffee Catastrophe' - Creative use of beverages")
             print("🏆 'Wrong Kind of Downtime' - Took down the entire network")
-            print("🏆 'First Day, Worst Day' - Maximum damage, minimum time")
-            print("🏆 'IT Legend' - You'll be used as a cautionary tale for years")
-            print()
             print("═" * 60)
             print()
             print("The company adds a new rule to the employee handbook:")
@@ -697,7 +692,8 @@ class Game:
 
         if response in ['yes', 'y']:
             print("\nThanks for playing!")
-            self.running = False
+            import sys
+            sys.exit(0)
         else:
             print("\nReturning to game...")
 
@@ -733,19 +729,23 @@ class Game:
             print("\n✓ William's Quest Complete")
         if self.state.check_flag('donut_heist_complete'):
             print("✓ Donut Heist Complete")
-            
+
         print()
-        
-        self.running = False
+        print_separator()
+        print("Thanks for playing Downtime: Game 1!")
+        print("You've learned the CompTIA troubleshooting methodology.")
+        print_separator()
+        print()
+
+        # Exit the game
+        import sys
+        sys.exit(0)
 
 
 def main():
     """Main entry point"""
     game = Game()
     game.start()
-    
-    print("\nThanks for playing Downtime: Game 1!")
-    print("You've learned the CompTIA troubleshooting methodology.\n")
 
 
 if __name__ == "__main__":
