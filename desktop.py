@@ -45,7 +45,7 @@ class DesktopMenu:
         """Show desktop header"""
         print_boxed("IT SUPPORT DESKTOP")
         print()
-        print("TICKET #4729 - Karen Miller - Login Failure")
+        print("TICKET #4729 - Karen Miller - Printing Issue")
         print(f"Status: {self.get_status(game_state)}")
         print(f"Current Step: {game_state.current_step}/7")
         print()
@@ -54,11 +54,11 @@ class DesktopMenu:
         """Get current ticket status"""
         if game_state.steps_complete[7]:
             return "CLOSED - RESOLVED"
-        elif game_state.karen_logged_in:
+        elif game_state.karen_problem_fixed:
             return "READY TO CLOSE"
         elif game_state.steps_complete[4]:
             return "READY FOR IMPLEMENTATION"
-        elif game_state.spotted_caps_lock:
+        elif game_state.spotted_wrong_network:
             return "ROOT CAUSE FOUND"
         elif game_state.steps_complete[1]:
             return "INVESTIGATING"
@@ -70,7 +70,7 @@ class DesktopMenu:
         print("AVAILABLE ACTIONS:")
         print_separator()
         print("1. View Ticket Details")
-        print("2. Check Authentication Logs")
+        print("2. Check Network Connection Logs")
         print("3. Run Diagnostics")
         print("4. View Methodology Checklist")
         print()
@@ -126,7 +126,7 @@ class DesktopMenu:
         clear_screen()
         print_boxed("TICKET DETAILS")
         print()
-        print("TICKET #4729 - LOGIN FAILURE")
+        print("TICKET #4729 - PRINTING ISSUE")
         print()
         print("Reported by: Karen Miller (Accounting)")
         print("Workstation: WS-ACC-07")
@@ -135,13 +135,14 @@ class DesktopMenu:
         print("Escalated by: Ian (Help Desk)")
         print()
         print("DESCRIPTION:")
-        print("User reports 'Invalid Password' error when attempting to log in.")
-        print("User insists password is correct and has not changed it recently.")
-        print("Issue began this morning upon arrival at work.")
+        print("User unable to print to network printer (Accounting_Printer_Floor2).")
+        print("Print dialog displays 'No printers found' message.")
+        print("User needs to print quarterly reports for client meeting.")
         print()
         print("TROUBLESHOOTING COMPLETED BY HELP DESK:")
         print("- Network connectivity verified (ping successful)")
-        print("- Workstation responds to remote management")
+        print("- Printer power and hardware checked (operational)")
+        print("- Print spooler service verified (running)")
         print("- No similar reports from other users")
         print("- User has client meeting at 10:00 AM")
         print()
@@ -149,64 +150,66 @@ class DesktopMenu:
         print()
         print("NOTES:")
         print("User becoming increasingly frustrated. Urgent resolution needed.")
-        
-        
+
+
         game_state.advance_time(2)
         
     def check_auth_logs(self, game_state):
-        """Check authentication logs"""
+        """Check network connection logs"""
         clear_screen()
-        print_boxed("AUTHENTICATION LOGS - WS-ACC-07")
+        print_boxed("NETWORK CONNECTION LOGS - WS-ACC-07")
         print()
-        
+
         if game_state.has_focus_buff() or game_state.redbull_consumed:
             # Enhanced view with focus
             print("Your focused mind processes the logs carefully...")
             print()
-            print("09:15:03 - AUTH_FAILED - User: karen - Invalid credentials")
-            print("09:18:47 - AUTH_FAILED - User: karen - Invalid credentials")
-            print_separator("─", 60)
-            print("Pattern change detected at 09:22:15 →")
-            print_separator("─", 60)
-            print("09:22:15 - AUTH_FAILED - User: KAREN - Invalid credentials")
-            print("09:27:33 - AUTH_FAILED - User: KAREN - Invalid credentials")
-            print("09:31:12 - AUTH_FAILED - User: KAREN - Invalid credentials")
+            print("09:05:12 - CONNECTED - SSID: Corp_Network - IP: 10.1.2.45")
+            print("09:14:33 - DISCONNECTED - SSID: Corp_Network")
+            print_separator("-", 60)
+            print("Connection change detected at 09:14:55 →")
+            print_separator("-", 60)
+            print("09:14:55 - CONNECTED - SSID: Guest_WiFi - IP: 192.168.100.23")
+            print("09:15:01 - DHCP_LEASE - Gateway: 192.168.100.1")
+            print("09:15:03 - DNS_REQUEST - google.com - SUCCESS")
+            print("09:15:45 - SMB_CONNECTION_FAILED - \\\\fileserver\\accounting")
+            print("09:16:22 - PRINTER_DISCOVERY_FAILED - No network printers found")
             print()
             print("✓ PATTERN IDENTIFIED")
             print()
-            print("The username changed from lowercase 'karen' to uppercase 'KAREN'")
-            print("at 09:22:15.")
+            print("The workstation switched from 'Corp_Network' to 'Guest_WiFi'")
+            print("at 09:14:55.")
             print()
-            print("This suggests Caps Lock was enabled between 09:18 and 09:22.")
+            print("Guest network allows internet but blocks internal resources!")
             print()
-            
-            if not game_state.check_flag('noticed_case_change'):
-                game_state.set_flag('noticed_case_change', True)
-                game_state.add_score(10, "Noticed case change in logs")
+
+            if not game_state.check_flag('noticed_network_change'):
+                game_state.set_flag('noticed_network_change', True)
+                game_state.add_score(10, "Noticed network change in logs")
         else:
             # Normal view - pattern not obvious
-            print("Multiple AUTH_FAILED entries for user 'karen'")
+            print("Network connection events for WS-ACC-07:")
             print()
-            print("09:15:03 - AUTH_FAILED - User: karen - Invalid credentials")
-            print("09:18:47 - AUTH_FAILED - User: karen - Invalid credentials")
-            print("09:22:15 - AUTH_FAILED - User: KAREN - Invalid credentials")
-            print("09:27:33 - AUTH_FAILED - User: KAREN - Invalid credentials")
-            print("09:31:12 - AUTH_FAILED - User: KAREN - Invalid credentials")
+            print("09:05:12 - CONNECTED - SSID: Corp_Network")
+            print("09:14:33 - DISCONNECTED - SSID: Corp_Network")
+            print("09:14:55 - CONNECTED - SSID: Guest_WiFi")
+            print("09:15:45 - SMB_CONNECTION_FAILED - \\\\fileserver\\accounting")
+            print("09:16:22 - PRINTER_DISCOVERY_FAILED - No network printers found")
             print()
-            print("All attempts from workstation WS-ACC-07")
-            print("Network connectivity verified")
-            print("Domain controller responding normally")
+            print("Workstation has network connectivity")
+            print("Internet access confirmed")
+            print("Some internal resource access failures")
             print()
-            print("The logs show repeated authentication failures, but no obvious")
+            print("The logs show some failed connections, but no obvious")
             print("pattern is visible.")
             print()
             print("(You might notice more details with better focus.)")
-            
+
         if not game_state.checked_logs:
             game_state.checked_logs = True
-            game_state.add_score(5, "Checked authentication logs")
-            
-        
+            game_state.add_score(5, "Checked network logs")
+
+
         game_state.advance_time(3)
         
     def run_diagnostics(self, game_state):
@@ -221,23 +224,23 @@ class DesktopMenu:
         print("WORKSTATION STATUS:")
         print_separator()
         print("Network Connection:      ✓ ACTIVE")
-        print("Domain Join:             ✓ CONNECTED")
-        print("Authentication Server:   ✓ REACHABLE")
+        print("Internet Access:         ✓ WORKING")
+        print("Printer Hardware:        ✓ OPERATIONAL")
         print("Local Hardware:          ✓ OPERATIONAL")
         print()
         print("DIAGNOSTIC SUMMARY:")
         print()
         print("All systems are operational. No infrastructure issues detected.")
         print()
-        print("The problem appears to be user-specific or related to the login")
-        print("attempt itself, not the network or server infrastructure.")
+        print("The problem appears to be user-specific or related to network")
+        print("configuration, not hardware or basic connectivity.")
         print()
         print("Time spent: 10 minutes")
         print()
         print("(This diagnostic didn't provide useful information for solving")
         print("the problem, but at least you've confirmed infrastructure is OK.)")
-        
-        
+
+
         game_state.advance_time(10)
         
     def view_methodology(self, game_state):
@@ -288,12 +291,12 @@ class DesktopMenu:
             print("Required before logging Step 1:")
             print(f"{'✓' if game_state.talked_to_ian else '□'} Talk to help desk about ticket")
             print(f"{'✓' if game_state.talked_to_karen else '□'} Talk to affected user")
-            print(f"{'✓' if game_state.watched_karen_type else '□'} Observe the problem firsthand")
+            print(f"{'✓' if game_state.checked_network_settings else '□'} Investigate the problem")
             print()
             print("Complete these tasks in the world first.")
-            
+
             return
-            
+
         # Log Step 1
         print_boxed("STEP 1: IDENTIFY THE PROBLEM")
         print()
@@ -301,13 +304,13 @@ class DesktopMenu:
         print_separator()
         print("✓ Help Desk (Ian) - Ticket escalation")
         print("✓ User (Karen Miller) - Direct symptoms")
-        print("✓ Workstation observation - Problem reproduction")
+        print("✓ Workstation investigation - Network settings checked")
         print()
         print("PROBLEM IDENTIFIED:")
         print_separator()
-        print("User Karen Miller (Accounting) unable to authenticate to")
-        print("workstation WS-ACC-07. Receiving 'Invalid Password' error")
-        print("despite entering correct password. Issue started this morning.")
+        print("User Karen Miller (Accounting) unable to print to network printer")
+        print("from workstation WS-ACC-07. Print dialog shows 'No printers found'")
+        print("despite printer being operational. Issue started this morning.")
         print()
         
         game_state.complete_step(1, 50)
@@ -342,28 +345,28 @@ class DesktopMenu:
                 print("Find the root cause in the world first.")
                 print()
                 print("You've identified the symptoms, but you haven't discovered")
-                print("what's actually causing the login failures.")
+                print("what's actually causing the printing problem.")
                 print()
-                print("Go investigate further. Watch the user carefully.")
+                print("Go investigate further. Check network settings carefully.")
                 print("(Coffee might help you spot subtle details.)")
-            
+
             return
-            
+
         # Log Step 2
         print_boxed("STEP 2: ESTABLISH THEORY")
         print()
         print("ROOT CAUSE IDENTIFIED:")
         print_separator()
-        print("Caps Lock key is enabled on user's keyboard")
+        print("User connected to Guest_WiFi instead of Corp_Network")
         print()
         print("THEORY:")
         print_separator()
-        print("When the user types her password, the Caps Lock key is active,")
-        print("causing the password to be entered with incorrect capitalization.")
+        print("The Guest WiFi network provides internet access for visitors")
+        print("but blocks access to internal corporate resources for security.")
         print()
-        print("Windows authentication is case-sensitive for passwords. With")
-        print("Caps Lock enabled, the user's password is being typed in the")
-        print("wrong case, resulting in authentication failure.")
+        print("Network printers, file shares, and internal applications are")
+        print("only accessible from the Corp_Network. User must have accidentally")
+        print("connected to Guest_WiFi this morning instead of Corp_Network.")
         print()
         
         game_state.complete_step(2, 50)
@@ -397,20 +400,21 @@ class DesktopMenu:
         # Log Step 3
         print_boxed("STEP 3: TEST THEORY")
         print()
-        print("THEORY: Caps Lock causing password case mismatch")
+        print("THEORY: Wrong network (Guest_WiFi vs Corp_Network)")
         print()
         print("TESTS PERFORMED:")
         print_separator()
-        print("✓ Observed Caps Lock indicator light is illuminated")
-        print("✓ User unaware of indicator light")
-        print("✓ Authentication logs show username case change pattern")
+        print("✓ Checked WiFi settings - connected to Guest_WiFi")
+        print("✓ Verified internet access works (public sites load)")
+        print("✓ Confirmed printer discovery fails on Guest_WiFi")
+        print("✓ Network logs show switch from Corp to Guest at 9:14 AM")
         print()
         print("THEORY CONFIRMATION:")
         print_separator()
         print("✓ THEORY CONFIRMED")
         print()
-        print("All tests support the hypothesis that Caps Lock is enabled")
-        print("and causing the password to be typed in the wrong case.")
+        print("All tests support the hypothesis that Guest_WiFi network")
+        print("blocks internal resources while allowing internet access.")
         print()
         
         game_state.complete_step(3, 60)
@@ -446,18 +450,18 @@ class DesktopMenu:
         print()
         print("SOLUTION:")
         print_separator()
-        print("Inform user of Caps Lock state and have them disable it")
+        print("Disconnect from Guest_WiFi and reconnect to Corp_Network")
         print()
         print("IMPLEMENTATION STEPS:")
         print("1. Go to user's office")
-        print("2. Inform user that Caps Lock is enabled")
-        print("3. Show user the Caps Lock indicator light")
-        print("4. Have user press Caps Lock key to disable it")
-        print("5. Have user retry login with Caps Lock off")
-        print("6. Verify successful authentication")
+        print("2. Inform user they're on the wrong network (Guest_WiFi)")
+        print("3. Show user the WiFi settings")
+        print("4. Have user disconnect from Guest_WiFi")
+        print("5. Have user connect to Corp_Network")
+        print("6. Verify printer discovery and file share access works")
         print()
         print("RISK ASSESSMENT: MINIMAL")
-        print("CHANGE CONTROL: Not required (user education only)")
+        print("CHANGE CONTROL: Not required (network configuration only)")
         print()
         
         game_state.complete_step(4, 40)
@@ -491,7 +495,7 @@ class DesktopMenu:
             print()
             print("You need to:")
             print(f"{'✓' if game_state.steps_complete[4] else '□'} Create plan (Step 4)")
-            print(f"{'✓' if game_state.told_karen_about_caps_lock and game_state.karen_logged_in else '□'} Implement solution (Step 5)")
+            print(f"{'✓' if game_state.told_karen_about_network and game_state.karen_problem_fixed else '□'} Implement solution (Step 5)")
             print(f"{'✓' if game_state.karen_verified_working else '□'} Verify functionality (Step 6)")
             print()
             print("Steps 5 and 6 happen in the world, not at your desktop.")
@@ -511,29 +515,30 @@ class DesktopMenu:
         print()
         print("PROBLEM DESCRIPTION:")
         print_separator()
-        print("User Karen Miller (Accounting) unable to authenticate to workstation")
-        print("WS-ACC-07. Receiving 'Invalid Password' error despite entering")
-        print("correct password. Issue began 9:15 AM.")
+        print("User Karen Miller (Accounting) unable to print to network printer")
+        print("from workstation WS-ACC-07. Print dialog shows 'No printers found'.")
+        print("User needs to print quarterly reports. Issue began 9:15 AM.")
         print()
         print("ROOT CAUSE:")
         print_separator()
-        print("Caps Lock key was enabled on keyboard, causing password to be")
-        print("entered with incorrect capitalization.")
+        print("Workstation connected to Guest_WiFi instead of Corp_Network.")
+        print("Guest network provides internet but blocks internal resources.")
         print()
         print("SOLUTION IMPLEMENTED:")
         print_separator()
-        print("1. Identified Caps Lock indicator light was illuminated")
-        print("2. Informed user of Caps Lock state")
-        print("3. User pressed Caps Lock key to disable it")
-        print("4. User successfully authenticated")
-        print("5. Verified full system functionality")
+        print("1. Identified workstation on Guest_WiFi network")
+        print("2. Informed user of incorrect network connection")
+        print("3. User disconnected from Guest_WiFi")
+        print("4. User connected to Corp_Network")
+        print("5. Printer discovery successful, printing functional")
+        print("6. Verified file share access restored")
         print()
         print("VERIFICATION:")
         print_separator()
         if game_state.karen_verified_working:
-            print("✓ User can log in successfully")
-            print("✓ Email accessible")
+            print("✓ Network printing functional")
             print("✓ File shares accessible")
+            print("✓ Internal applications accessible")
             print("✓ User made 10:00 AM meeting")
         else:
             print("⚠ Verification skipped")

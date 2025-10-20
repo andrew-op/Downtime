@@ -121,7 +121,7 @@ def init_locations():
         'HELP DESK',
         "The Help Desk area with several workstations. Ian sits at his desk, phone " \
         "headset on, looking relieved to see you. Tickets scroll across multiple monitors. " \
-        "There's a persistent ringing of phones in the background.",
+        "There's a persistent ringing of phones in the background. Marcus's office is to the west.",
         item_descriptions={
             'coffee_help_desk': "Ian has a cup of coffee on his desk."
         },
@@ -179,9 +179,9 @@ def init_locations():
     locations['karen_office'] = Location(
         'karen_office',
         "KAREN'S OFFICE",
-        "A small office with filing cabinets, a desk covered in papers, and a computer " \
-        "displaying a login screen. Karen sits at her desk, looking stressed. A clock " \
-        "on the wall reminds everyone of approaching deadlines.",
+        "A small office with filing cabinets, a desk covered in papers, and a computer. " \
+        "Karen sits at her desk, looking frustrated. A network printer sits by the window. " \
+        "A clock on the wall reminds everyone of approaching deadlines.",
         item_descriptions={
             'sticky_note': "A yellow sticky note is attached to the edge of her monitor."
         },
@@ -193,13 +193,13 @@ def init_locations():
             },
             'desk': {
                 'examine': "Karen's desk is covered with papers, printouts, and sticky notes. " \
-                          "Her computer sits in the center, currently showing a login screen.",
+                          "Her computer sits in the center with a document open on screen.",
                 'take': "You can't take Karen's desk.",
                 'aliases': ['table']
             },
             'papers': {
                 'examine': "Various financial documents, reports, and printouts scattered across the desk. " \
-                          "Looks like she's working on quarterly reports.",
+                          "Looks like she's working on quarterly reports and trying to print them.",
                 'take': "Those are Karen's work documents. You shouldn't take them.",
                 'aliases': ['documents', 'printouts', 'reports']
             },
@@ -208,10 +208,17 @@ def init_locations():
                 'take': "The clock is mounted on the wall and you have no reason to take it.",
                 'aliases': ['wall clock']
             },
-            'login screen': {
-                'examine': "Karen's computer is stuck at the Windows login screen, waiting for credentials.",
-                'take': "You can't take a login screen. Maybe you should examine the computer instead.",
-                'aliases': ['screen', 'monitor']
+            'printer': {
+                'examine': "An HP LaserJet network printer sitting by the window. Power light is on, paper loaded. " \
+                          "It looks ready to print, but Karen's computer can't find it.",
+                'take': "The printer is way too large and heavy to carry around.",
+                'aliases': ['network printer', 'hp', 'laserjet']
+            },
+            'computer': {
+                'examine': "Karen's desktop computer. The screen shows a document open, but the print " \
+                          "dialog says 'No printers found.'",
+                'take': "You can't take Karen's computer.",
+                'aliases': ['screen', 'monitor', 'pc']
             }
         }
     )
@@ -377,7 +384,11 @@ def init_locations():
     locations['help_desk'].exits = {
         'north': 'hallway',
         'n': 'hallway',
-        'hallway': 'hallway'
+        'west': 'manager_office',
+        'w': 'manager_office',
+        'hallway': 'hallway',
+        'manager': 'manager_office',
+        'marcus': 'manager_office'
     }
     
     # Accounting
@@ -414,8 +425,10 @@ def init_locations():
     
     # Manager Office
     locations['manager_office'].exits = {
-        'out': 'hallway',
-        'hallway': 'hallway'
+        'east': 'help_desk',
+        'e': 'help_desk',
+        'out': 'help_desk',
+        'help': 'help_desk'
     }
     
     return locations

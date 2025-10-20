@@ -34,13 +34,13 @@ class Game:
         """Display game introduction"""
         print_boxed("HELP DESK HERO: GAME 1")
         print("\n" + "="*70)
-        print("           KAREN'S LOGIN PROBLEM")
+        print("           KAREN'S PRINTING PROBLEM")
         print("           A Help Desk Training Adventure")
         print("="*70 + "\n")
         
         print("Monday, 9:45 AM\n")
         print("Your first day as an IT Support Technician.")
-        print("You've been assigned to solve a user login issue.")
+        print("You've been assigned to solve a user printing issue.")
         print("Use the CompTIA troubleshooting methodology to succeed.\n")
 
         input("Press Enter to begin...")
@@ -55,11 +55,9 @@ class Game:
         print("Manager Marcus walks over with a coffee mug.\n")
 
         print('Marcus: "Morning! Welcome to the team. I see Ian from Help Desk"')
-        print('        "escalated a ticket to you. User login issue."\n')
-
+        print('        "escalated a ticket to you. Printing problem."\n')
         print('        "Should be straightforward, but the user has a client"')
         print('        "meeting at 10 AM, so time is tight."\n')
-
         print('        "Let me know if you need anything. Good luck!"\n')
 
         print("*Marcus walks away*\n")
@@ -461,8 +459,8 @@ class Game:
         print()
         print("It's now 10:00 AM.\n")
         print("Karen's client meeting has started.")
-        print("She still can't log in.\n")
-        print("Karen storms out of the building to find another computer.")
+        print("She still can't print her quarterly reports.\n")
+        print("Karen has to attend the meeting without the printed documents.")
         print("The client meeting is a disaster.\n")
         print("Manager Marcus is not happy.\n")
         
@@ -486,9 +484,9 @@ class Game:
 
         print_boxed("CONGRATULATIONS!")
         print()
-        print("You successfully solved Karen's login problem!\n")
+        print("You successfully solved Karen's printing problem!\n")
 
-        print("Karen was able to log in and make her 10:00 AM meeting.")
+        print("Karen was able to print her reports and make her 10:00 AM meeting.")
         print("Manager Marcus is impressed with your methodology.")
         print("Your documentation is thorough and professional.\n")
         

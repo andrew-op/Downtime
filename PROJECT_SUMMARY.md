@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**Game Title:** Help Desk Hero: Game 1 - Karen's Login Problem  
+**Game Title:** Help Desk Hero: Game 1 - Karen's Printing Problem  
 **Type:** Text-based adventure / Educational game  
 **Purpose:** Interactive training for IT help desk methodology  
 **Language:** Python 3  

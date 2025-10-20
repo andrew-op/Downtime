@@ -53,21 +53,22 @@ class GameState:
         self.talked_to_william = False
         
         # Investigation flags
-        self.watched_karen_type = False
-        self.spotted_caps_lock = False
+        self.checked_network_settings = False
+        self.spotted_wrong_network = False
+        self.checked_printer = False
         self.checked_logs = False
-        self.noticed_case_change = False
-        
+        self.checked_file_shares = False
+
         # Quest flags
         self.william_quest_started = False
         self.william_quest_complete = False
         self.william_blocking_break_room = False
         self.donut_heist_started = False
         self.donut_heist_complete = False
-        
+
         # Solution implementation
-        self.told_karen_about_caps_lock = False
-        self.karen_logged_in = False
+        self.told_karen_about_network = False
+        self.karen_problem_fixed = False
         self.karen_verified_working = False
         
         # Desktop computer state
@@ -152,13 +153,13 @@ class GameState:
             
     def check_step_1_unlock(self):
         """Check if Step 1 can be unlocked"""
-        return (self.talked_to_ian and 
-                self.talked_to_karen and 
-                self.watched_karen_type)
-                
+        return (self.talked_to_ian and
+                self.talked_to_karen and
+                self.checked_network_settings)
+
     def check_step_2_unlock(self):
         """Check if Step 2 can be unlocked"""
-        return self.steps_complete[1] and self.spotted_caps_lock
+        return self.steps_complete[1] and self.spotted_wrong_network
         
     def check_step_3_unlock(self):
         """Check if Step 3 can be unlocked"""
