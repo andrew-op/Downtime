@@ -1048,12 +1048,12 @@ The IT office is to the west.
 ```
 > EXAMINE William
 
-An older man sits at a table reading a newspaper. He's wearing a 
-faded IT conference t-shirt from 2015. This is William, the legendary 
+A relaxed man sits at a table reading a newspaper. He's wearing a
+faded IT conference t-shirt from 2015. This is William, the legendary
 former IT Director.
 
-Everyone thought he retired, but he keeps showing up for the coffee 
-and gossip. He lives in Munia's guest house now.
+Everyone thought he retired, but he keeps showing up for the coffee
+and gossip. He lives in his former employee Zach's backyard guest house.
 
 You can TALK to William.
 ```

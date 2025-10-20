@@ -153,7 +153,7 @@ def init_locations():
         'ACCOUNTING DEPARTMENT',
         "A quiet office space filled with cubicles. Financial spreadsheets glow on " \
         "various monitors. You can hear the gentle clicking of keyboards and occasional " \
-        "frustrated sighs.",
+        "frustrated sighs. Karen's office is to the north.",
         objects={
             'cubicles': {
                 'examine': "Rows of accounting cubicles. Most are occupied by people working intently " \
@@ -384,12 +384,17 @@ def init_locations():
     locations['accounting'].exits = {
         'west': 'hallway',
         'w': 'hallway',
+        'north': 'karen_office',
+        'n': 'karen_office',
         'karen': 'karen_office',
+        'office': 'karen_office',
         'hallway': 'hallway'
     }
     
     # Karen's Office
     locations['karen_office'].exits = {
+        'south': 'accounting',
+        's': 'accounting',
         'accounting': 'accounting',
         'out': 'accounting'
     }

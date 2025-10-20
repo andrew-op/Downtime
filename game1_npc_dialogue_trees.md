@@ -1535,10 +1535,11 @@ Marcus: *checks watch*
 
 **William's Appearance:**
 ```
-An older man sits at a table reading a newspaper. He's wearing a 
-faded IT conference t-shirt from 2015. This is William, the legendary 
-former IT Director. Everyone thought he retired, but he keeps showing 
-up for the coffee and gossip.
+A relaxed man sits at a table reading a newspaper. He's wearing a
+faded IT conference t-shirt from 2015. This is William, the legendary
+former IT Director. Everyone thought he retired, but he keeps showing
+up for the coffee and gossip. He lives in his former employee Zach's
+backyard guest house.
 ```
 
 **Initial Dialogue:**
@@ -1566,13 +1567,12 @@ William: *chuckles*
 
 *Leans back in chair*
 
-"Tell you what - you bring me a sugar-free Red Bull from that 
+"Tell you what - you bring me a sugar-free Red Bull from that
 vending machine, and I'll share what 30 years in IT taught me."
 
 *Gestures at the vending machine*
 
-"I'd get it myself, but I'm comfortable here. And broke until 
-my pension check comes in."
+"I'd get it myself, but I'm a bit short on cash at the moment."
 
 *Sips his coffee*
 
@@ -1609,8 +1609,8 @@ state.set_dialogue_state("william", "quest_active")
 ```
 William: *grins*
 
-"At my age, you need all the help you can get staying awake 
-during the day. Plus, it tastes better than this coffee."
+"I need all the help I can get staying focused during the day.
+Plus, it tastes better than this coffee."
 
 *Gestures at his mug*
 
@@ -1646,9 +1646,9 @@ William: *smiles*
 
 *Gestures around the break room*
 
-"Besides, Munia lets me stay in her guest house for free. Least 
-I can do is show up and make sure you kids don't burn the place 
-down."
+"Besides, my former employee Zach lets me stay in his backyard guest
+house. Least I can do is show up and make sure you all don't burn
+the place down."
 
 *Winks*
 
@@ -1656,8 +1656,8 @@ down."
 
 *Takes a sip*
 
-"And sometimes you youngsters need an old hand to point you in 
-the right direction."
+"And sometimes you folks need someone with experience to point
+you in the right direction."
 ```
 
 ---

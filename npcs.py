@@ -137,11 +137,15 @@ class Karen(NPC):
             print(format_dialogue("Karen",
                 "I haven't changed it. I use the same password every day. "
                 "There's no reason this shouldn't work!"))
-            
+
             game_state.talked_to_karen = True
             game_state.add_score(10, "Talked to Karen")
             game_state.advance_time(3)
-            
+
+            # Show dialogue options immediately after first conversation
+            print()
+            self.dialogue_investigation(game_state)
+
         else:
             # Subsequent conversations
             if game_state.told_karen_about_caps_lock:
@@ -408,7 +412,7 @@ class William(NPC):
         super().__init__(
             'william',
             'William (Retired IT Director)',
-            'A relaxed-looking older gentleman reading a newspaper.',
+            'A relaxed-looking man reading a newspaper.',
             'break_room'
         )
         
@@ -446,7 +450,7 @@ class William(NPC):
             "reading the paper."))
         print()
         print(format_dialogue("William",
-            "Say... I don't suppose you could help an old man out?"))
+            "Say... I don't suppose you could help me out?"))
         print()
         
         choices = ["Sure, what do you need?", "Sorry, I'm busy with a ticket."]
@@ -455,8 +459,8 @@ class William(NPC):
         
         if choice == 1:
             print(format_dialogue("William",
-                "There's a Sugar-Free Red Bull in the fridge. Someone keeps "
-                "stealing mine, so I hid this one in the back."))
+                "There's a Sugar-Free Red Bull in the vending machine down the hall. "
+                "I'd get it myself, but I'm a bit short on cash at the moment."))
             print()
             print(format_dialogue("William",
                 "Bring me that Red Bull, and I'll share some wisdom from "
