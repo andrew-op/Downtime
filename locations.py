@@ -55,7 +55,7 @@ def init_locations():
         'IT SUPPORT OFFICE',
         "Your new office space. A desk with a computer, a phone, and a stack of " \
         "documentation. The walls are covered with network diagrams and old CompTIA " \
-        "certification posters.",
+        "certification posters. A reinforced door on the east wall leads to the server room.",
         item_descriptions={
             'methodology': "A laminated CompTIA Methodology Sheet is pinned to the cubicle wall.",
             'coffee_it_office': "There's a fresh cup of coffee on your desk, still steaming.",
@@ -362,7 +362,11 @@ def init_locations():
     locations['it_office'].exits = {
         'south': 'hallway',
         's': 'hallway',
-        'hallway': 'hallway'
+        'east': 'server_room',
+        'e': 'server_room',
+        'hallway': 'hallway',
+        'server': 'server_room',
+        'servers': 'server_room'
     }
     
     # Hallway
@@ -418,10 +422,13 @@ def init_locations():
         'hallway': 'hallway'
     }
     
-    # Server Room (accessed from hallway in later implementations)
+    # Server Room
     locations['server_room'].exits = {
-        'out': 'hallway',
-        'hallway': 'hallway'
+        'west': 'it_office',
+        'w': 'it_office',
+        'out': 'it_office',
+        'it': 'it_office',
+        'office': 'it_office'
     }
     
     # Manager Office
