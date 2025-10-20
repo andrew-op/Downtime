@@ -1,10 +1,10 @@
-# Help Desk Hero: Game 1 - Karen's Login Problem
+# Help Desk Hero: Game 1 - Karen's Printing Problem
 
 A text-based adventure game teaching the CompTIA troubleshooting methodology through an interactive help desk scenario.
 
 ## Story
 
-It's your first day as an IT Support Technician. You've been assigned a seemingly simple ticket: a user can't log in. But as with all good IT mysteries, the solution lies in the details. 
+It's your first day as an IT Support Technician. You've been assigned a seemingly simple ticket: a user can't print. But as with all good IT mysteries, the solution lies in the details. 
 
 Use the CompTIA 7-step troubleshooting methodology to solve the problem before Karen's 10 AM client meeting!
 
@@ -114,7 +114,7 @@ This game teaches the CompTIA troubleshooting process:
 ## NPCs
 
 - **Ian (Help Desk)** - Escalated the ticket to you, can provide context
-- **Karen (Accounting)** - The user with the login problem
+- **Karen (Accounting)** - The user with the printing problem
 - **Marcus (Manager)** - Your boss, tracks your progress
 - **William (Retired IT Director)** - Offers wisdom in exchange for a favor
 
@@ -123,7 +123,6 @@ This game teaches the CompTIA troubleshooting process:
 - **Coffee** - Increases focus (+10 observation bonus at 2-3 cups)
 - **Red Bull** - Maximum focus, but part of William's quest
 - **Methodology Sheet** - Reference for the 7-step process
-- **Sticky Note** - Karen's password reminder
 - **Donut** - Marcus's donut (optional heist)
 
 ## Scoring
@@ -146,7 +145,7 @@ This game teaches the CompTIA troubleshooting process:
 
 ## The Problem (No Spoilers!)
 
-Karen can't log in. She's getting "Invalid Password" errors. She insists her password is correct. The network is fine. The server is fine. So what's the problem?
+Karen can't print. Her computer says "No printers found." The printer hardware is fine. The network seems fine. She can access the internet. So what's the problem?
 
 Use your observation skills, talk to people, and follow the methodology to find out!
 

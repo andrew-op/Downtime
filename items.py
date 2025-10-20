@@ -181,9 +181,31 @@ class RedBull(Item):
         game_state.advance_time(2)
 
 
+class Laptop(Item):
+    """New laptop"""
+
+    def __init__(self, location="it_office"):
+        super().__init__(
+            'laptop',
+            'New Laptop',
+            'A brand new laptop, still in its box.',
+            location,
+            takeable=True,
+            consumable=False
+        )
+
+    def examine(self, game_state):
+        """Examine the laptop"""
+        print_boxed("NEW LAPTOP")
+        print()
+        print("A brand new Dell laptop, still sealed in its box.")
+        print()
+        print("Looks like a recent delivery. Someone's getting an upgrade.")
+
+
 class Donut(Item):
     """Donut from Manager's office"""
-    
+
     def __init__(self, location="manager_office"):
         super().__init__(
             'donut',
@@ -193,7 +215,7 @@ class Donut(Item):
             takeable=True,
             consumable=True
         )
-        
+
     def examine(self, game_state):
         """Examine the donut"""
         print_boxed("CHOCOLATE DONUT")
@@ -201,10 +223,18 @@ class Donut(Item):
         print("A beautiful chocolate donut with rainbow sprinkles.")
         print("It looks incredibly tempting.")
         print()
-        print("There's a note: 'Marcus's donut - For after the")
-        print("             morning meeting'")
-        print()
-        print("Taking this would be... questionable.")
+
+        if not game_state.check_flag('marcus_has_laptop'):
+            print("Marcus is sitting right there at his desk.")
+            print("You can't just take his donut while he's watching!")
+        else:
+            print("Marcus is busy setting up his new laptop.")
+            print("He's completely distracted...")
+            print()
+            print("There's a note: 'Marcus's donut - For after the")
+            print("             morning meeting'")
+            print()
+            print("Taking this would be... questionable.")
         
     def use(self, game_state):
         """Eat the donut"""
@@ -367,16 +397,19 @@ def init_items():
 
     # Red Bull - NOT initialized here, obtained through vending machine
     # items['redbull'] = RedBull('break_room')
-    
+
+    # Laptop for Marcus
+    items['laptop'] = Laptop('it_office')
+
     # Donut
     items['donut'] = Donut('manager_office')
-    
+
     # Methodology sheet
     items['methodology'] = Methodology('it_office')
-    
+
     # Sticky note
     items['sticky_note'] = Sticky('karen_office')
-    
+
     # Add more items as needed
-    
+
     return items

@@ -166,9 +166,9 @@ william_quest_active = True
 ```
 William: *smiles*
 
-"Retired from the job, not from the coffee. Besides, Munia lets me 
-stay in her guest house for free. Least I can do is show up and make 
-sure you kids don't burn the place down."
+"Retired from the job, not from the coffee. Besides, my former
+employee Zach lets me stay in his backyard guest house. Least I can
+do is show up and make sure you all don't burn the place down."
 
 *takes a sip of coffee*
 

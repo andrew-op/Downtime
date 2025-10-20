@@ -16,8 +16,8 @@
 
 ## Karen Miller (Accounting User)
 
-**Role:** Primary user with the login problem  
-**Personality:** Frustrated, time-pressured, insistent she knows her password  
+**Role:** Primary user with the printing problem
+**Personality:** Frustrated, time-pressured, insistent her computer is broken
 **Location:** Karen's Office (static)
 
 ### **Dialogue State Machine**
@@ -27,9 +27,9 @@
     ↓
 [demonstrating] → After showing you the problem
     ↓
-[identified] → After you spot Caps Lock (with focus)
+[identified] → After you spot wrong network (with focus)
     ↓
-[logged_in] → After solution implemented (Step 5)
+[problem_fixed] → After solution implemented (Step 5)
     ↓
 [resolved] → After verification complete (Step 6)
 ```
@@ -43,10 +43,10 @@
 
 **Karen's Appearance:**
 ```
-Karen from Accounting sits at her desk, arms crossed. She's been 
-trying to log in for over 30 minutes and her patience is wearing 
-thin. She has a client meeting at 10 AM and keeps glancing at the 
-clock.
+Karen from Accounting sits at her desk, frustrated. She's been
+trying to print for over 30 minutes and her patience is wearing
+thin. She has a client meeting at 10 AM and keeps glancing at the
+clock. A printer sits by the window, powered on but unused.
 ```
 
 **Initial Dialogue:**
@@ -55,35 +55,38 @@ clock.
 
 Karen: *looks up, frustrated*
 
-"FINALLY! I've been locked out for 30 minutes! I have a client 
-meeting at 10! This computer is broken!"
+"FINALLY! I've been trying to print for 30 minutes! I have a client
+meeting at 10! I need to print my quarterly reports!"
 
 Options:
-1. "What exactly happens when you try to log in?"
+1. "What exactly happens when you try to print?"
 2. "Can you show me what happens when you try?"
 3. "When did this start?"
 4. "Has anything changed with your computer?"
-5. "Let me reset your password real quick."
-6. "I'll check the authentication server."
+5. "Let me check the printer hardware."
+6. "I'll check the print server."
 ```
 
 ---
 
-**Option 1: "What exactly happens when you try to log in?"**
+**Option 1: "What exactly happens when you try to print?"**
 
 ```
 Karen: *sighs*
 
-"It says 'Invalid Password!' But I KNOW my password! I type it 
-every single day! I haven't changed it! It's the same password 
-I've been using for months!"
+"It says 'No printers found!' But the printer is RIGHT THERE!"
+
+*points at the printer by the window*
+
+"I've tried three times! The print dialog just can't find any
+printers. But it's the same printer I've used every day!"
 
 *taps desk impatiently*
 
-"The error just says the username or password is incorrect. But 
-it's NOT incorrect! I'm typing it right!"
+"I can browse the internet fine. The computer isn't broken. So
+why can't I print?!"
 
-state.add_info("karen_symptom_invalid_password")
+state.add_info("karen_symptom_no_printers")
 +5 points (information gathering)
 ```
 
@@ -96,22 +99,23 @@ Karen: *turns to computer*
 
 "Fine. Watch."
 
-*Karen types her username and password quickly, not looking at 
-the keyboard*
+*Karen opens her quarterly report document*
 
-The screen shows: "Invalid Password"
+*She clicks File > Print...*
 
-Karen: "SEE? It doesn't work! But I KNOW this password!"
+*The print dialog opens*
 
-You watched her type, but couldn't spot the problem yet.
+Karen: "SEE? It says 'No printers available.' But the printer is
+right there by the window!"
 
-(You need better focus to see what's happening. Maybe try with 
-the focus buff from coffee?)
+(The printer seems operational. This might be a network issue...)
 
-state.add_info("watched_karen_type_once")
-state.set_dialogue_state("karen", "demonstrating")
+state.add_info("watched_karen_print_once")
+state.advance_time(3)
 +10 points (observation attempt)
 ```
+
+**NOTE:** After this first conversation, dialogue options immediately appear.
 
 ---
 
@@ -120,12 +124,12 @@ state.set_dialogue_state("karen", "demonstrating")
 ```
 Karen: *checks her watch*
 
-"This morning! 9:15! I got here, sat down, tried to log in - 
+"This morning! 9:15! I got here, sat down, tried to print -
 nothing! Same thing over and over!"
 
 *visibly frustrated*
 
-"I've been sitting here for 40 minutes now. My meeting is in 
+"I've been sitting here for 40 minutes now. My meeting is in
 20 minutes!"
 
 state.add_info("karen_problem_start_915am")
@@ -139,12 +143,11 @@ state.add_info("karen_problem_start_915am")
 ```
 Karen: *shakes head firmly*
 
-"NO! Nothing! Same computer, same desk, same password! Why isn't 
-this working?!"
+"NO! Nothing! Same computer, same desk! Why isn't this working?!"
 
 *crosses arms*
 
-"I didn't change anything! I just sat down and tried to log in 
+"I didn't change anything! I just sat down and tried to print
 like I do every morning!"
 
 state.add_info("karen_no_changes_reported")
@@ -153,36 +156,22 @@ state.add_info("karen_no_changes_reported")
 
 ---
 
-**Option 5: "Let me reset your password real quick."** [WRONG PATH]
+**Option 5: "Let me check the printer hardware."**
 
 ```
-Karen: "Okay fine, just make it work!"
+Karen: "The printer is fine! It's on, it has paper!"
 
-*You remotely reset Karen's password to TempPass123*
+*points at the printer by the window*
 
-You: "Try logging in with TempPass123."
+"The power light is on! It's ready! The problem is my COMPUTER
+can't find it!"
 
-Karen: *types the new password*
-
-*Caps Lock is still on, so she types: tEMP pASS123*
-
-Login screen: "Invalid Password"
-
-Karen: "THE NEW PASSWORD DOESN'T WORK EITHER! What is going on?!"
-
-You realize: The password wasn't the problem.
-
--50 points (incorrect theory, didn't test)
--25 points (wasted time)
-
-state.set_flag("reset_password_without_testing", True)
-
-(You need to find the actual problem.)
+(The printer hardware is indeed fine. The issue must be network-related.)
 ```
 
 ---
 
-**Option 6: "I'll check the authentication server."**
+**Option 6: "I'll check the print server."**
 
 ```
 Karen: *exasperated*
@@ -195,227 +184,213 @@ Karen: *exasperated*
 
 state.add_info("karen_time_pressure")
 
-(You can check the server, but it's working fine. The problem 
-is here at her desk.)
+(You can check the server, but it's working fine. The problem
+is here at her workstation.)
 ```
 
 ---
 
-### **State 2: "demonstrating" (Showing the Problem)**
+### **State 2: "investigation" (Ongoing Investigation)**
 
-**Trigger:** After Karen demonstrates the login issue  
-**Prerequisites:** watched_karen_type_once = True
+**Trigger:** After initial conversation with Karen
+**Prerequisites:** talked_to_karen = True
 
 **Dialogue:**
 ```
 > TALK Karen
 
-Karen is waiting for you to figure out the problem. She taps 
+Karen is waiting for you to figure out the problem. She taps
 her fingers on the desk impatiently.
 
-The login screen still shows "Invalid Password"
-
 Options:
-1. "Can you try typing it more slowly?"
-2. "Let me watch you type one more time, very carefully."
-3. "I need to check the authentication logs."
-4. "This is definitely a server issue."
-5. [Focus Buff Required] "Let me watch VERY carefully as you type..."
+1. "Can you show me what happens when you try to print?"
+2. "Is the printer turned on and connected?"
+3. "Can you access the internet?"
+4. "Let me check your network settings."
+5. [If spotted_wrong_network] "I found the problem - you're on the Guest network!"
 ```
 
 ---
 
-**Option 1: "Can you try typing it more slowly?"**
+**Option 1: "Can you show me what happens when you try to print?"**
 
 ```
-Karen: *sighs deeply*
+Karen: "Okay, let me try again. I'll show you."
 
-"FINE."
+*Karen opens her quarterly report document*
 
-*She types slowly, deliberately*
+*She clicks File > Print...*
 
-*Same result: "Invalid Password"*
+*The print dialog opens*
 
-Karen: "See? Still doesn't work! Even when I type slowly!"
+Karen: "See? It says 'No printers found.' But the printer is
+right there by the window!"
 
-(You still can't spot the issue without the focus buff.)
+You see the message: 'No printers available'
 
-+5 points (attempted observation)
-```
+(The printer seems to be powered on. This might be a network issue...)
 
----
-
-**Option 2: "Let me watch you type one more time, very carefully."**
-
-```
-Karen: *rolls eyes*
-
-"Again? Okay..."
-
-*She types her password*
-
-"Invalid Password"
-
-You watch closely, but without enhanced focus, you can't spot 
-the subtle issue with the Caps Lock.
-
-+5 points (attempted observation)
-
-(Try drinking coffee for better focus.)
+state.advance_time(3)
 ```
 
 ---
 
-**Option 3: "I need to check the authentication logs."**
+**Option 2: "Is the printer turned on and connected?"**
 
 ```
-Karen: "Whatever you need to do. Just fix it!"
+You: "Let me check the printer."
 
-*She gestures at her computer dismissively*
+*You walk over to the printer by the window*
 
-(You can check the logs at your desktop. They might show a 
-pattern if you have the focus buff.)
-```
+The printer is an HP LaserJet. Power light is on. Paper is loaded.
+No error messages.
 
----
+Karen: "See? The printer is fine! It's been working all week until today!"
 
-**Option 4: "This is definitely a server issue."**
+(The printer hardware seems fine. The issue must be elsewhere...)
 
-```
-Karen: "So how long until it's fixed?"
-
-You: "I'll need to investigate the server..."
-
-Karen: *groans* "My meeting is in 15 minutes!"
-
-(This is the wrong path. The server is fine. The problem is 
-here at her workstation.)
-
-state.add_info("wrong_theory_server")
+state.checked_printer = True
+state.advance_time(2)
 ```
 
 ---
 
-**Option 5: [Focus Buff Required] "Let me watch VERY carefully as you type..."** [CRITICAL PATH]
-
-**Prerequisites:** has_focus_buff = True (2+ coffees)
+**Option 3: "Can you access the internet?"** [RED HERRING]
 
 ```
-You: "Let me watch very carefully as you type. Take your time."
+Karen: "Oh, the internet works fine! I was just checking my email
+and browsing earlier."
 
-Karen: "Okay..." *types carefully*
+*Karen opens a web browser*
 
-You focus intently. Your caffeinated brain processes every detail.
+*She navigates to google.com*
 
-As Karen reaches for the Shift key to capitalize the first letter, 
-her pinky brushes against the Caps Lock key.
+*The page loads successfully*
 
-*click*
+Karen: "See? Internet is working perfectly."
 
-A small green LED illuminates on the keyboard.
+(Internet works, but she still can't print. Interesting...)
 
-She doesn't notice. She keeps typing.
+state.advance_time(2)
+```
 
-She types her entire password in uppercase.
+---
 
-"Invalid Password"
+**Option 4: "Let me check your network settings."** [CRITICAL PATH]
 
-There it is. You see it now.
+```
+You: "Let me check your network settings."
 
-The Caps Lock indicator is on. That's the problem.
+*You open the network settings on Karen's computer*
 
-When she presses Shift for the first letter, Caps Lock is 
-already on, so the letter becomes lowercase. Then all the 
-other letters are uppercase.
+*You click the WiFi icon in the system tray*
+```
 
-Her password is being typed in the wrong case.
+---
+
+**WITH FOCUS BUFF (2+ coffees):**
+
+```
+✓ OBSERVATION (Focus Buff)
+
+Wait... you notice something important:
+
+Connected to: Guest_WiFi
+Signal Strength: Excellent
+
+That's the problem! She's connected to the guest network!
+
+The guest network provides internet access but blocks internal
+resources like printers, file shares, and internal applications.
+
+She needs to be on 'Corp_Network' instead!
 
 ═══════════════════════════════════════════════════════════════
 
 ✓ ROOT CAUSE IDENTIFIED
 
-The Caps Lock key is enabled, causing the password to be typed 
-with incorrect capitalization.
+User connected to Guest_WiFi instead of Corp_Network.
+Guest network blocks access to internal resources.
 
-state.add_info("spotted_caps_lock")
+state.spotted_wrong_network = True
+state.checked_network_settings = True
 state.set_flag("root_cause_found", True)
-state.set_dialogue_state("karen", "identified")
 
-+25 points (critical discovery)
-+10 points (proper observation)
++25 points (Spotted Wrong Network!)
 
-Achievement Unlocked: "Detective"
+Achievement Unlocked: "Network Detective"
 
 ═══════════════════════════════════════════════════════════════
 
 [This unlocks Step 2: Establish Theory on your Desktop]
 ```
 
----
+**WITHOUT FOCUS BUFF:**
 
-### **State 3: "identified" (Root Cause Found)**
-
-**Trigger:** After spotting Caps Lock  
-**Prerequisites:** spotted_caps_lock = True
-
-**Dialogue:**
 ```
-> TALK Karen
+You see network information on the screen...
 
-Karen looks at you hopefully.
+Network: Connected
+Signal Strength: Excellent
 
-Karen: "Did you figure it out?"
+Hmm... something seems off, but you're not sure what.
+You rub your eyes. It's hard to focus this early in the morning...
 
-Options:
-1. "I think I found the issue. Your Caps Lock is on."
-2. "Let me check the server first, just to be sure."
-3. "I need to reset your password."
-4. "It's a network authentication problem."
+state.checked_network_settings = True
+state.advance_time(3)
 ```
 
 ---
 
-**Option 1: "I think I found the issue. Your Caps Lock is on."** [CORRECT]
+**Option 5: [If spotted_wrong_network] "I found the problem - you're on the Guest network!"** [CORRECT]
 
 ```
-You: "I found the problem. Your Caps Lock is on."
+You: "I found the problem. You're connected to Guest_WiFi instead
+of Corp_Network."
 
-Karen: *looks at keyboard*
+Karen: "The GUEST network?! Oh no... I must have clicked the wrong
+one when I connected this morning!"
 
-"My what? Caps Lock?"
+You: "Guest WiFi allows internet access for visitors, but blocks
+internal resources like printers and file shares."
 
-*She looks at the keyboard closely*
+Karen: "That's why I can browse but can't print! Let me switch..."
 
-"Oh! That little light! I didn't even notice it was on!"
+*Karen clicks the WiFi icon*
 
-*She presses the Caps Lock key*
+*She disconnects from Guest_WiFi*
 
-*click* - The indicator light turns off.
+*She selects Corp_Network from the list*
 
-Karen: "Okay, it's off now. Should I try again?"
+*Enters the password...*
 
-You: "Yes, try logging in now."
+*Connected to Corp_Network*
 
-Karen: *types her password*
+Karen: "Okay, I'm connected to Corp_Network now. Let me try printing..."
 
-*Login successful*
+*Karen opens her document and clicks Print*
 
-"It worked! I'm in! Oh thank god!"
+*Print dialog opens...*
 
-*Her desktop starts loading*
+*Accounting_Printer_Floor2 appears in the list!*
 
-Karen: "I can't believe it was just that little button!"
+*She clicks Print*
+
+*The printer by the window whirs to life and prints the document*
+
+Karen: "IT WORKED! The printer shows up now! Oh thank you so much!"
 
 ═══════════════════════════════════════════════════════════════
 
 ✓ Step 5: Solution Implemented
 
-Karen successfully logged in with Caps Lock disabled.
+Karen successfully reconnected to Corp_Network and can print.
 
-state.set_flag("solution_implemented", True)
-state.set_dialogue_state("karen", "logged_in")
+state.told_karen_about_network = True
+state.karen_problem_fixed = True
+state.steps_complete[5] = True
 
-+60 points (Step 5 complete)
++60 points (Step 5: Solution Implemented)
 
 ═══════════════════════════════════════════════════════════════
 
@@ -424,123 +399,83 @@ state.set_dialogue_state("karen", "logged_in")
 
 ---
 
-**Option 2: "Let me check the server first, just to be sure."**
+### **State 3: "problem_fixed" (Solution Implemented)**
 
+**Trigger:** After switching to Corp_Network
+**Prerequisites:** karen_problem_fixed = True
+
+**Verification Dialogue:**
 ```
-Karen: *frustrated*
+Karen: "I still have a few minutes before my meeting. Should I test
+everything to make sure it's all working?"
 
-"Can you hurry? My meeting is in 10 minutes!"
-
-(You're stalling. You already know the problem is Caps Lock. 
-Just tell her.)
-
--10 points (unnecessary delay)
-```
-
----
-
-**Option 3: "I need to reset your password."** [WRONG]
-
-```
-You reset her password.
-
-Karen tries to log in with the new password.
-
-Caps Lock is still on.
-
-"Invalid Password"
-
-Karen: "The new password doesn't work either! WHAT IS GOING ON?!"
-
-You realize you're fixing the wrong problem.
-
--50 points (wrong solution)
-
-(The Caps Lock is still on. That's the real issue.)
+Options:
+1. "Yes, please verify everything works."
+2. "No, you're all set."
 ```
 
 ---
 
-**Option 4: "It's a network authentication problem."** [WRONG]
+**Option 1: "Yes, please verify everything works."** [RECOMMENDED]
 
 ```
-Karen: "How long will that take to fix?"
+Karen: "Okay, let me check everything..."
 
-You: "I'll need to investigate the network..."
+*Karen tries to print another test page*
 
-Karen: "My meeting is in 10 minutes! Can't you just fix it?!"
+*The printer responds immediately*
 
-(This is the wrong diagnosis. The network is fine. It's the 
-Caps Lock.)
+Karen: "Printing works! Great!"
 
--25 points (incorrect theory)
+*Karen opens File Explorer and navigates to \\fileserver\accounting*
+
+Karen: "File server access... yes! I can see all my folders now!"
+
+*She opens a spreadsheet from the network share*
+
+Karen: "Perfect! Everything is working perfectly!"
+
+Karen: "I really appreciate you taking the time to make sure. Some
+techs just fix and run!"
+
+═══════════════════════════════════════════════════════════════
+
+✓ Step 6: Verified Functionality
+
+state.karen_verified_working = True
+state.steps_complete[6] = True
+
++70 points (Step 6: Verified Functionality)
+
+═══════════════════════════════════════════════════════════════
 ```
 
 ---
 
-### **State 4: "logged_in" (Needs Verification)**
+**Option 2: "No, you're all set."**
 
-**Trigger:** After Karen successfully logs in  
-**Prerequisites:** solution_implemented = True
+```
+Karen: "Okay, thanks again!"
+
+(Skipping verification is risky...)
+```
+
+---
+
+### **State 4: "resolved" (Problem Fully Resolved)**
+
+**Trigger:** After verification complete
+**Prerequisites:** karen_verified_working = True
 
 **Dialogue:**
 ```
 > TALK Karen
 
-Karen is now logged in. Her desktop is loading. She's clicking 
-around, checking her files.
+Karen: "Everything is working great! I made my meeting on time too.
+Thank you so much!"
 
-Karen: "Oh thank god, I can finally get to work!"
-
-Options:
-1. "Can you verify everything is working? Try locking and logging in again."
-2. "Can you check your email and files to make sure everything works?"
-3. "Great! Problem solved. I'll close the ticket."
-4. [Leave without saying anything]
-```
-
----
-
-**Option 1: "Can you verify everything is working? Try locking and logging in again."** [BEST]
-
-```
-You: "Before I close the ticket, can you verify everything works? 
-Lock your screen and log in again to make sure."
-
-Karen: "Sure, let me test it..."
-
-*Karen presses Windows+L to lock the screen*
-
-*Login screen appears*
-
-Karen: *types her password carefully*
-
-*Caps Lock is off*
-
-*Successful login*
-
-Karen: "Perfect! It works!"
-
-*She clicks around her desktop*
-
-"Email is loading... Files are here... Everything looks normal."
-
-*She opens her calendar*
-
-"Great, I can see my meeting in 10 minutes. I can actually 
-prepare now!"
-
-Karen: "Thank you so much! I really appreciate your help!"
-
-═══════════════════════════════════════════════════════════════
-
-✓ Step 6: Functionality Verified
-
-User confirmed:
-• Successful login (tested twice)
-• Email accessible
-• Files accessible  
-• Applications loading normally
+Karen: "And I learned something - I'll make sure I'm on the Corp_Network
+before calling IT next time!"
 
 state.set_flag("verified_working", True)
 state.set_dialogue_state("karen", "resolved")
@@ -723,8 +658,8 @@ helpful. There's a half-empty coffee mug on his desk.
 
 Ian: *looks up, relieved to see you*
 
-"Oh hey! Yeah, I got the ticket from Karen at 9:15. She was... 
-pretty angry about not being able to log in."
+"Oh hey! Yeah, I got the ticket from Karen at 9:15. She was...
+pretty frustrated about not being able to print."
 
 *He pulls up the ticket on his screen*
 
@@ -733,7 +668,7 @@ pretty angry about not being able to log in."
 Options:
 1. "What exactly did she tell you?"
 2. "What troubleshooting have you done so far?"
-3. "Have there been other login issues today?"
+3. "Have there been other printing issues today?"
 4. "Thanks. I'll take it from here."
 5. "Can I see the ticket details?"
 ```
@@ -743,17 +678,17 @@ Options:
 **Option 1: "What exactly did she tell you?"**
 
 ```
-Ian: "She said she keeps getting 'Invalid Password' and she's 
-absolutely sure she's typing the right password."
+Ian: "She said she keeps getting 'No printers found' when she
+tries to print. She says the printer is right there in her office."
 
 *He checks his notes*
 
-"She was pretty insistent that the password is correct. She said 
-she's been using the same one for months and hasn't changed it."
+"She was pretty insistent that the printer is working fine. Power
+is on, has paper, no errors on the display."
 
 *Shrugs*
 
-"She also mentioned she has a meeting at 10, so there's time 
+"She also mentioned she has a meeting at 10, so there's time
 pressure."
 
 state.add_info("ian_karen_symptoms")
@@ -767,19 +702,18 @@ state.add_info("ian_karen_symptoms")
 ```
 Ian: *pulls up his notes*
 
-"I checked network connectivity - her workstation responds to ping. 
-I verified she's connected to the domain. I tried having her reboot, 
-but that didn't help."
+"I checked network connectivity - her workstation responds to ping.
+I verified the printer has power and paper. I even checked if the
+print spooler service was running - it is."
 
 *Looks at screen*
 
-"The authentication server is responding normally. No other users 
-are reporting similar issues. It seems isolated to her account."
+"The printer is responding normally. No other users are reporting
+similar issues. Her internet works fine too."
 
 *Hesitates*
 
-"I asked if she changed her password recently - she said no. I 
-couldn't figure it out, so I escalated to you."
+"I couldn't figure it out, so I escalated to you."
 
 state.add_info("ian_troubleshooting_done")
 +10 points (information gathering)
@@ -1535,10 +1469,11 @@ Marcus: *checks watch*
 
 **William's Appearance:**
 ```
-An older man sits at a table reading a newspaper. He's wearing a 
-faded IT conference t-shirt from 2015. This is William, the legendary 
-former IT Director. Everyone thought he retired, but he keeps showing 
-up for the coffee and gossip.
+A relaxed man sits at a table reading a newspaper. He's wearing a
+faded IT conference t-shirt from 2015. This is William, the legendary
+former IT Director. Everyone thought he retired, but he keeps showing
+up for the coffee and gossip. He lives in his former employee Zach's
+backyard guest house.
 ```
 
 **Initial Dialogue:**
@@ -1566,13 +1501,12 @@ William: *chuckles*
 
 *Leans back in chair*
 
-"Tell you what - you bring me a sugar-free Red Bull from that 
+"Tell you what - you bring me a sugar-free Red Bull from that
 vending machine, and I'll share what 30 years in IT taught me."
 
 *Gestures at the vending machine*
 
-"I'd get it myself, but I'm comfortable here. And broke until 
-my pension check comes in."
+"I'd get it myself, but I'm a bit short on cash at the moment."
 
 *Sips his coffee*
 
@@ -1609,8 +1543,8 @@ state.set_dialogue_state("william", "quest_active")
 ```
 William: *grins*
 
-"At my age, you need all the help you can get staying awake 
-during the day. Plus, it tastes better than this coffee."
+"I need all the help I can get staying focused during the day.
+Plus, it tastes better than this coffee."
 
 *Gestures at his mug*
 
@@ -1646,9 +1580,9 @@ William: *smiles*
 
 *Gestures around the break room*
 
-"Besides, Munia lets me stay in her guest house for free. Least 
-I can do is show up and make sure you kids don't burn the place 
-down."
+"Besides, my former employee Zach lets me stay in his backyard guest
+house. Least I can do is show up and make sure you all don't burn
+the place down."
 
 *Winks*
 
@@ -1656,8 +1590,8 @@ down."
 
 *Takes a sip*
 
-"And sometimes you youngsters need an old hand to point you in 
-the right direction."
+"And sometimes you folks need someone with experience to point
+you in the right direction."
 ```
 
 ---

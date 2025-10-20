@@ -15,12 +15,12 @@ def clear_screen():
 def print_boxed(text):
     """Print text in a box"""
     width = len(text) + 4
-    print("╔" + "═" * width + "╗")
-    print("║  " + text + "  ║")
-    print("╚" + "═" * width + "╝")
+    print("+" + "=" * width + "+")
+    print("|  " + text + "  |")
+    print("+" + "=" * width + "+")
 
 
-def print_separator(char="─", length=70):
+def print_separator(char="-", length=70):
     """Print a separator line"""
     print(char * length)
 

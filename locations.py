@@ -55,10 +55,11 @@ def init_locations():
         'IT SUPPORT OFFICE',
         "Your new office space. A desk with a computer, a phone, and a stack of " \
         "documentation. The walls are covered with network diagrams and old CompTIA " \
-        "certification posters.",
+        "certification posters. A reinforced door on the east wall leads to the server room.",
         item_descriptions={
             'methodology': "A laminated CompTIA Methodology Sheet is pinned to the cubicle wall.",
-            'coffee_it_office': "There's a fresh cup of coffee on your desk, still steaming."
+            'coffee_it_office': "There's a fresh cup of coffee on your desk, still steaming.",
+            'laptop': "A sealed laptop box sits on the corner of your desk - looks like a recent delivery."
         },
         objects={
             'desk': {
@@ -121,7 +122,7 @@ def init_locations():
         'HELP DESK',
         "The Help Desk area with several workstations. Ian sits at his desk, phone " \
         "headset on, looking relieved to see you. Tickets scroll across multiple monitors. " \
-        "There's a persistent ringing of phones in the background.",
+        "There's a persistent ringing of phones in the background. Marcus's office is to the west.",
         item_descriptions={
             'coffee_help_desk': "Ian has a cup of coffee on his desk."
         },
@@ -153,7 +154,7 @@ def init_locations():
         'ACCOUNTING DEPARTMENT',
         "A quiet office space filled with cubicles. Financial spreadsheets glow on " \
         "various monitors. You can hear the gentle clicking of keyboards and occasional " \
-        "frustrated sighs.",
+        "frustrated sighs. Karen's office is to the north.",
         objects={
             'cubicles': {
                 'examine': "Rows of accounting cubicles. Most are occupied by people working intently " \
@@ -179,9 +180,9 @@ def init_locations():
     locations['karen_office'] = Location(
         'karen_office',
         "KAREN'S OFFICE",
-        "A small office with filing cabinets, a desk covered in papers, and a computer " \
-        "displaying a login screen. Karen sits at her desk, looking stressed. A clock " \
-        "on the wall reminds everyone of approaching deadlines.",
+        "A small office with filing cabinets, a desk covered in papers, and a computer. " \
+        "Karen sits at her desk, looking frustrated. A network printer sits by the window. " \
+        "A clock on the wall reminds everyone of approaching deadlines.",
         item_descriptions={
             'sticky_note': "A yellow sticky note is attached to the edge of her monitor."
         },
@@ -193,13 +194,13 @@ def init_locations():
             },
             'desk': {
                 'examine': "Karen's desk is covered with papers, printouts, and sticky notes. " \
-                          "Her computer sits in the center, currently showing a login screen.",
+                          "Her computer sits in the center with a document open on screen.",
                 'take': "You can't take Karen's desk.",
                 'aliases': ['table']
             },
             'papers': {
                 'examine': "Various financial documents, reports, and printouts scattered across the desk. " \
-                          "Looks like she's working on quarterly reports.",
+                          "Looks like she's working on quarterly reports and trying to print them.",
                 'take': "Those are Karen's work documents. You shouldn't take them.",
                 'aliases': ['documents', 'printouts', 'reports']
             },
@@ -208,10 +209,17 @@ def init_locations():
                 'take': "The clock is mounted on the wall and you have no reason to take it.",
                 'aliases': ['wall clock']
             },
-            'login screen': {
-                'examine': "Karen's computer is stuck at the Windows login screen, waiting for credentials.",
-                'take': "You can't take a login screen. Maybe you should examine the computer instead.",
-                'aliases': ['screen', 'monitor']
+            'printer': {
+                'examine': "An HP LaserJet network printer sitting by the window. Power light is on, paper loaded. " \
+                          "It looks ready to print, but Karen's computer can't find it.",
+                'take': "The printer is way too large and heavy to carry around.",
+                'aliases': ['network printer', 'hp', 'laserjet']
+            },
+            'computer': {
+                'examine': "Karen's desktop computer. The screen shows a document open, but the print " \
+                          "dialog says 'No printers found.'",
+                'take': "You can't take Karen's computer.",
+                'aliases': ['screen', 'monitor', 'pc']
             }
         }
     )
@@ -354,7 +362,11 @@ def init_locations():
     locations['it_office'].exits = {
         'south': 'hallway',
         's': 'hallway',
-        'hallway': 'hallway'
+        'east': 'server_room',
+        'e': 'server_room',
+        'hallway': 'hallway',
+        'server': 'server_room',
+        'servers': 'server_room'
     }
     
     # Hallway
@@ -377,19 +389,28 @@ def init_locations():
     locations['help_desk'].exits = {
         'north': 'hallway',
         'n': 'hallway',
-        'hallway': 'hallway'
+        'west': 'manager_office',
+        'w': 'manager_office',
+        'hallway': 'hallway',
+        'manager': 'manager_office',
+        'marcus': 'manager_office'
     }
     
     # Accounting
     locations['accounting'].exits = {
         'west': 'hallway',
         'w': 'hallway',
+        'north': 'karen_office',
+        'n': 'karen_office',
         'karen': 'karen_office',
+        'office': 'karen_office',
         'hallway': 'hallway'
     }
     
     # Karen's Office
     locations['karen_office'].exits = {
+        'south': 'accounting',
+        's': 'accounting',
         'accounting': 'accounting',
         'out': 'accounting'
     }
@@ -401,16 +422,21 @@ def init_locations():
         'hallway': 'hallway'
     }
     
-    # Server Room (accessed from hallway in later implementations)
+    # Server Room
     locations['server_room'].exits = {
-        'out': 'hallway',
-        'hallway': 'hallway'
+        'west': 'it_office',
+        'w': 'it_office',
+        'out': 'it_office',
+        'it': 'it_office',
+        'office': 'it_office'
     }
     
     # Manager Office
     locations['manager_office'].exits = {
-        'out': 'hallway',
-        'hallway': 'hallway'
+        'east': 'help_desk',
+        'e': 'help_desk',
+        'out': 'help_desk',
+        'help': 'help_desk'
     }
     
     return locations

@@ -5,6 +5,7 @@ A text-based adventure teaching CompTIA troubleshooting methodology
 """
 
 import sys
+import random
 from game_state import GameState
 from locations import Location, init_locations
 from items import Item, init_items
@@ -34,13 +35,13 @@ class Game:
         """Display game introduction"""
         print_boxed("HELP DESK HERO: GAME 1")
         print("\n" + "="*70)
-        print("           KAREN'S LOGIN PROBLEM")
+        print("           KAREN'S PRINTING PROBLEM")
         print("           A Help Desk Training Adventure")
         print("="*70 + "\n")
         
         print("Monday, 9:45 AM\n")
         print("Your first day as an IT Support Technician.")
-        print("You've been assigned to solve a user login issue.")
+        print("You've been assigned to solve a user printing issue.")
         print("Use the CompTIA troubleshooting methodology to succeed.\n")
 
         input("Press Enter to begin...")
@@ -55,11 +56,9 @@ class Game:
         print("Manager Marcus walks over with a coffee mug.\n")
 
         print('Marcus: "Morning! Welcome to the team. I see Ian from Help Desk"')
-        print('        "escalated a ticket to you. User login issue."\n')
-
-        print('        "Should be straightforward, but the user has a client"')
-        print('        "meeting at 10 AM, so time is tight."\n')
-
+        print('        "escalated a ticket to you. Printing problem."\n')
+        print('        "Should be straightforward, but the user has an important"')
+        print('        "client meeting coming up."\n')
         print('        "Let me know if you need anything. Good luck!"\n')
 
         print("*Marcus walks away*\n")
@@ -80,9 +79,6 @@ class Game:
             if self.state.check_win_condition():
                 self.handle_win()
                 break
-
-            # Check time-based events
-            self.check_time_events()
             
     def show_status(self):
         """Display current game status"""
@@ -150,6 +146,20 @@ class Game:
                 self.take_item(' '.join(args))
             else:
                 print("Take what?")
+        elif verb in ['give']:
+            if len(args) >= 2:
+                # Command format: give [item] [to] [person] or give [item] [person]
+                if 'to' in args:
+                    to_index = args.index('to')
+                    item_name = ' '.join(args[:to_index])
+                    person_name = ' '.join(args[to_index+1:])
+                else:
+                    # Assume last word is person, rest is item
+                    item_name = ' '.join(args[:-1])
+                    person_name = args[-1]
+                self.give_item(item_name, person_name)
+            else:
+                print("Give what to whom? (Usage: give [item] to [person])")
         elif verb in ['use', 'drink', 'consume']:
             if args:
                 self.use_item(' '.join(args))
@@ -179,8 +189,7 @@ class Game:
         elif verb in ['quit', 'exit', 'q']:
             self.quit_game()
         else:
-            print(f"I don't understand '{command}'.")
-            print("Type 'help' for available commands.")
+            self.show_confused_response(command)
             
     def move(self, direction):
         """Move to a new location"""
@@ -229,6 +238,14 @@ class Game:
                     break
 
         if item:
+            # Special handling for donut - requires Marcus to have laptop
+            if item.id == 'donut' and not self.state.check_flag('marcus_has_laptop'):
+                print("\nMarcus is sitting right at his desk, watching you.")
+                print("You can't just take his donut while he's staring at you!")
+                print()
+                print("(Maybe if he was distracted with something...)")
+                return
+
             if item.takeable:
                 item.taken = True
                 item.location = "inventory"
@@ -238,6 +255,9 @@ class Game:
                 # Special handling
                 if item.id == 'redbull':
                     self.state.has_redbull = True
+                elif item.id == 'donut':
+                    print("Marcus is completely absorbed in setting up his new laptop.")
+                    print("He didn't even notice!")
             else:
                 print(f"\nYou can't take that.")
         else:
@@ -248,7 +268,41 @@ class Game:
                 print(f"\n{obj['take']}")
             else:
                 print(f"I don't see {item_name} here.")
-            
+
+    def give_item(self, item_name, npc_name):
+        """Give an item to an NPC"""
+        # Check if item is in inventory
+        item = None
+        for item_id in self.state.inventory:
+            i = self.items[item_id]
+            if item_name.lower() in i.name.lower():
+                item = i
+                break
+
+        if not item:
+            print(f"\nYou don't have {item_name} in your inventory.")
+            return
+
+        # Find NPC in current location
+        npc = None
+        for n in self.npcs.values():
+            if n.location == self.state.current_location:
+                if npc_name.lower() in n.name.lower():
+                    npc = n
+                    break
+
+        if not npc:
+            print(f"\nI don't see {npc_name} here.")
+            return
+
+        # Redirect laptop giving to dialogue option
+        if item.id == 'laptop' and npc.id == 'marcus':
+            print("\nYou should talk to Marcus if you want to give him the laptop.")
+            print("(Hint: Use 'talk marcus' to start a conversation)")
+        else:
+            # Default response for other items/NPCs
+            print(f"\n{npc.name} doesn't seem interested in {item.name}.")
+
     def use_item(self, item_name):
         """Use an item from inventory or interact with location objects"""
         # First check inventory items
@@ -410,7 +464,28 @@ class Game:
         if self.state.coffees_consumed > 0 or self.state.redbull_consumed:
             print(f"\nCaffeine Level: {self.state.get_caffeine_level_name()}")
             print(f"Focus Buff: {self.state.get_focus_description()}")
-        
+
+    def show_confused_response(self, command):
+        """Show a humorous response to unrecognized commands"""
+        responses = [
+            f"'{command}'? That's not in my job description.",
+            f"Error 404: Command '{command}' not found. Have you tried turning it off and on again?",
+            f"I'm a help desk tech, not a '{command}' interpreter.",
+            f"'{command}' is not a valid command. Did you mean to file a ticket about that?",
+            f"Hmm, '{command}' doesn't compute. Maybe it needs more coffee?",
+            f"'{command}'? I'll escalate that to someone who understands it.",
+            f"Syntax error: '{command}' is not recognized as a valid help desk action.",
+            f"'{command}'? That sounds like a job for Level 3 support.",
+            f"I tried '{command}', but my computer just stared back at me.",
+            f"'{command}' is beyond my scope of practice. Also, it's not a real command.",
+            f"Permission denied. Just kidding - '{command}' isn't a thing.",
+            f"'{command}'? Let me check the knowledge base... Nope, nothing.",
+            f"You can't '{command}' here. Or anywhere, really.",
+            f"'{command}' failed successfully.",
+            f"I don't speak '{command}'. Try English commands instead."
+        ]
+        print(random.choice(responses))
+
     def show_help(self):
         """Show help text"""
         print()
@@ -423,6 +498,7 @@ class Game:
         print("INTERACTION:")
         print("  talk [person]      - Talk to someone")
         print("  take [item]        - Pick up an item")
+        print("  give [item] to [person] - Give an item to someone")
         print("  use [item]         - Use an item from inventory")
         print("  read [item]        - Read readable items like notes")
         print("  examine [thing]    - Look at something closely")
@@ -447,35 +523,7 @@ class Game:
             self.running = False
         else:
             print("\nReturning to game...")
-            
-    def check_time_events(self):
-        """Check for time-based events"""
-        # Check if time limit exceeded
-        if self.state.minutes >= 60:  # 10:00 AM deadline
-            self.handle_time_limit_exceeded()
-            
-    def handle_time_limit_exceeded(self):
-        """Handle exceeding time limit"""
-        print()
-        print_boxed("TIME'S UP!")
-        print()
-        print("It's now 10:00 AM.\n")
-        print("Karen's client meeting has started.")
-        print("She still can't log in.\n")
-        print("Karen storms out of the building to find another computer.")
-        print("The client meeting is a disaster.\n")
-        print("Manager Marcus is not happy.\n")
-        
-        print_separator()
-        print("GAME OVER: Time Limit Exceeded")
-        print_separator()
-        print(f"\nFinal Score: {self.state.score}")
-        print("\nYou failed to solve the problem in time.")
-        print("Karen missed her meeting deadline.")
-        print()
-        
-        self.running = False
-        
+
     def handle_win(self):
         """Handle winning the game"""
         print()
@@ -486,9 +534,9 @@ class Game:
 
         print_boxed("CONGRATULATIONS!")
         print()
-        print("You successfully solved Karen's login problem!\n")
+        print("You successfully solved Karen's printing problem!\n")
 
-        print("Karen was able to log in and make her 10:00 AM meeting.")
+        print("Karen was able to print her reports for her client meeting.")
         print("Manager Marcus is impressed with your methodology.")
         print("Your documentation is thorough and professional.\n")
         
