@@ -70,7 +70,6 @@ class Game:
     def game_loop(self):
         """Main game loop"""
         # Show initial location
-        self.show_status()
         self.show_location()
 
         while self.running:
@@ -86,15 +85,20 @@ class Game:
             self.check_time_events()
             
     def show_status(self):
-        """Display current status bar"""
-        time_str = self.state.get_time_string()
+        """Display current game status"""
         score = self.state.score
-        step = self.state.current_step
-        caffeine = self.state.get_caffeine_level_name()
-        
-        print("="*70)
-        print(f"Time: {time_str} | Score: {score} | Step: {step}/7 | Caffeine: {caffeine}")
-        print("="*70)
+        steps_done = sum(1 for completed in self.state.steps_complete.values() if completed)
+
+        print()
+        print_boxed("GAME STATUS")
+        print()
+        print(f"Score: {score}")
+        print(f"Steps Completed: {steps_done}/7")
+
+        # Only show caffeine info if player has consumed at least one coffee
+        if self.state.coffees_consumed > 0 or self.state.redbull_consumed:
+            print(f"Caffeine Level: {self.state.get_caffeine_level_name()}")
+            print(f"Focus Status: {self.state.get_focus_description()}")
         
     def show_location(self):
         """Display current location description"""
@@ -151,6 +155,11 @@ class Game:
                 self.use_item(' '.join(args))
             else:
                 print("Use what?")
+        elif verb in ['read']:
+            if args:
+                self.read_item(' '.join(args))
+            else:
+                print("Read what?")
         elif verb in ['examine', 'look', 'inspect', 'x']:
             if args:
                 self.examine(' '.join(args))
@@ -159,7 +168,9 @@ class Game:
                 self.show_location()
         elif verb == 'inventory' or verb == 'i':
             self.show_inventory()
-            
+        elif verb == 'status':
+            self.show_status()
+
         # Special commands
         elif verb == 'computer' and self.state.current_location == 'it_office':
             self.desktop.show(self.state)
@@ -216,7 +227,7 @@ class Game:
                 if item_name.lower() in i.name.lower():
                     item = i
                     break
-                    
+
         if item:
             if item.takeable:
                 item.taken = True
@@ -230,18 +241,24 @@ class Game:
             else:
                 print(f"\nYou can't take that.")
         else:
-            print(f"I don't see {item_name} here.")
+            # Check if it's a location object (non-takable scenery)
+            loc = self.locations[self.state.current_location]
+            obj = loc.get_object(item_name)
+            if obj and 'take' in obj:
+                print(f"\n{obj['take']}")
+            else:
+                print(f"I don't see {item_name} here.")
             
     def use_item(self, item_name):
-        """Use an item from inventory"""
-        # Find item in inventory
+        """Use an item from inventory or interact with location objects"""
+        # First check inventory items
         item = None
         for item_id in self.state.inventory:
             i = self.items[item_id]
             if item_name.lower() in i.name.lower():
                 item = i
                 break
-                
+
         if item:
             print()
             item.use(self.state)
@@ -249,9 +266,99 @@ class Game:
             # Remove from inventory if consumable
             if item.consumable:
                 self.state.inventory.remove(item.id)
+            return
+
+        # Check if it's a useable location object
+        loc = self.locations[self.state.current_location]
+        obj = loc.get_object(item_name)
+        if obj and 'use' in obj:
+            # Special handling for vending machine
+            if obj['use'] == 'vending_machine_interaction':
+                self.use_vending_machine()
+            else:
+                print(f"\n{obj['use']}")
+            return
+
+        print(f"You don't have {item_name}.")
+
+    def read_item(self, item_name):
+        """Read an item"""
+        # Check items in location
+        for item in self.items.values():
+            if item.location == self.state.current_location and not item.taken:
+                if item_name.lower() in item.name.lower():
+                    print()
+                    item.read(self.state)
+                    return
+
+        # Check inventory
+        for item_id in self.state.inventory:
+            item = self.items[item_id]
+            if item_name.lower() in item.name.lower():
+                print()
+                item.read(self.state)
+                return
+
+        # Check location objects for readable scenery
+        loc = self.locations[self.state.current_location]
+        obj = loc.get_object(item_name)
+        if obj and 'read' in obj:
+            print(f"\n{obj['read']}")
+            return
+
+        print(f"I don't see {item_name} here.")
+
+    def use_vending_machine(self):
+        """Handle vending machine interaction"""
+        from items import RedBull
+
+        print()
+        print("You approach the vending machine.")
+        print()
+
+        # Check if player already has Red Bull
+        if self.state.has_redbull:
+            print("You already got the Red Bull from this machine.")
+            return
+
+        # Check if player has money
+        if self.state.money < 2:
+            print("The Sugar-Free Red Bull in slot D4 costs $2.00.")
+            print()
+            print(f"You only have ${self.state.money}.")
+            print()
+            print("(You need to find $2 to buy the Red Bull.)")
+            return
+
+        # Player has enough money
+        print("The Sugar-Free Red Bull in slot D4 costs $2.00.")
+        print(f"You have ${self.state.money}.")
+        print()
+        print("Purchase Red Bull? (yes/no)")
+        response = input("> ").strip().lower()
+
+        if response in ['yes', 'y']:
+            print()
+            print("*You insert $2 into the machine*")
+            print("*Mechanical whirring*")
+            print("*THUNK*")
+            print()
+            print("You retrieve the cold Sugar-Free Red Bull from the slot.")
+
+            # Give player the Red Bull
+            redbull = RedBull('inventory')
+            self.items['redbull'] = redbull
+            redbull.taken = True
+            self.state.inventory.append('redbull')
+            self.state.has_redbull = True
+            self.state.money -= 2
+
+            print()
+            print("Red Bull acquired!")
         else:
-            print(f"You don't have {item_name}.")
-            
+            print()
+            print("You decide not to buy anything right now.")
+
     def examine(self, target):
         """Examine something in detail"""
         # Check items in location
@@ -277,6 +384,13 @@ class Game:
                 item.examine(self.state)
                 return
 
+        # Check location objects (non-takable scenery)
+        loc = self.locations[self.state.current_location]
+        obj = loc.get_object(target)
+        if obj and 'examine' in obj:
+            print(f"\n{obj['examine']}")
+            return
+
         print(f"I don't see {target} here.")
         
     def show_inventory(self):
@@ -292,8 +406,10 @@ class Game:
                 item = self.items[item_id]
                 print(f"- {item.name}")
 
-        print(f"\nCaffeine Level: {self.state.get_caffeine_level_name()}")
-        print(f"Focus Buff: {self.state.get_focus_description()}")
+        # Only show caffeine info if player has consumed at least one coffee
+        if self.state.coffees_consumed > 0 or self.state.redbull_consumed:
+            print(f"\nCaffeine Level: {self.state.get_caffeine_level_name()}")
+            print(f"Focus Buff: {self.state.get_focus_description()}")
         
     def show_help(self):
         """Show help text"""
@@ -308,11 +424,13 @@ class Game:
         print("  talk [person]      - Talk to someone")
         print("  take [item]        - Pick up an item")
         print("  use [item]         - Use an item from inventory")
+        print("  read [item]        - Read readable items like notes")
         print("  examine [thing]    - Look at something closely")
         print("  look               - Look around current location")
         print()
         print("INVENTORY:")
         print("  inventory / i      - Show what you're carrying")
+        print("  status             - Show score and progress")
         print()
         print("SPECIAL:")
         print("  computer           - Use desktop computer (IT Office only)")

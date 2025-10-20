@@ -422,8 +422,7 @@ class William(NPC):
             print(format_dialogue("William",
                 "How's that ticket going? Remember - watch what the user DOES, "
                 "not what they SAY."))
-            game_state.william_blocking_break_room = False
-            
+
         elif game_state.william_quest_started:
             # Quest in progress
             if game_state.has_redbull:
@@ -524,7 +523,6 @@ class William(NPC):
         
         game_state.william_quest_complete = True
         game_state.has_redbull = False
-        game_state.william_blocking_break_room = False
         game_state.add_score(100, "William's Quest Complete")
         
         print()

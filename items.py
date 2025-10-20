@@ -8,72 +8,114 @@ from utils import print_boxed, print_separator
 
 class Item:
     """Represents an item in the game"""
-    
-    def __init__(self, id, name, description, location, takeable=True, consumable=False):
+
+    def __init__(self, id, name, description, location, takeable=True, consumable=False, readable=False):
         self.id = id
         self.name = name
         self.description = description
         self.location = location
         self.takeable = takeable
         self.consumable = consumable
+        self.readable = readable
         self.taken = False
-        
+
     def examine(self, game_state):
         """Examine the item in detail"""
         print(f"\n{self.name}")
         print_separator()
         print(self.description)
-        
+
     def use(self, game_state):
         """Use the item (override in subclasses)"""
         print(f"\nYou can't use {self.name} right now.")
 
+    def read(self, game_state):
+        """Read the item (override in subclasses for readable items)"""
+        if self.readable:
+            # Default to examine for readable items
+            self.examine(game_state)
+        else:
+            print(f"\nYou can't read {self.name}.")
+
 
 class Coffee(Item):
     """Coffee item - provides caffeine boost"""
-    
-    def __init__(self, location="break_room"):
+
+    def __init__(self, id='coffee', name='Cup of Coffee', description='A steaming cup of black coffee. The aroma is inviting.',
+                 drink_message='You take a sip of the hot coffee.', location="break_room"):
         super().__init__(
-            'coffee',
-            'Cup of Coffee',
-            'A steaming cup of black coffee. The aroma is inviting.',
+            id,
+            name,
+            description,
             location,
             takeable=True,
             consumable=True
         )
-        
+        self.drink_message = drink_message
+
     def use(self, game_state):
         """Drink the coffee"""
         print_boxed("DRINKING COFFEE")
         print()
-        print("You take a sip of the hot coffee.")
+        print(self.drink_message)
         print()
-        
+
         game_state.coffees_consumed += 1
         game_state.caffeine_level += 1
-        
+
         if game_state.caffeine_level == 1:
-            print("Ahh, that hits the spot. You feel more alert.")
+            print("Ahh, that hits the spot. You feel slightly more alert.")
             game_state.add_score(5, "First coffee")
         elif game_state.caffeine_level == 2:
             print("Your mind feels sharper. You're focused and ready.")
             print("\n✓ FOCUS BUFF ACTIVATED")
             print("You'll notice more details now.")
-            game_state.add_score(10, "Optimal caffeine level")
+            game_state.add_score(30, "Optimal caffeine level")
         elif game_state.caffeine_level == 3:
-            print("You're feeling pretty wired, but still in control.")
+            print("You're feeling pretty wired, but still focused.")
+            print("Your heart is beating a bit faster.")
         elif game_state.caffeine_level == 4:
-            print("Okay, that might have been too much coffee...")
-            print("Your hands are starting to shake a bit.")
-            print("\n⚠ OVERCAFFEINATED")
-            print("You lose focus from too much caffeine.")
-            game_state.add_score(-10, "Too much coffee")
-        else:
-            print("You're way too caffeinated. Your heart is racing.")
-            print("This is definitely not helping anymore.")
-            game_state.add_score(-5, "Excessive coffee")
-            
+            print("You're feeling uncomfortably wired.")
+            print("Your hands have a slight tremor.")
+        elif game_state.caffeine_level == 5:
+            print("Okay, that's definitely too much coffee...")
+            print("You're not feeling great. Maybe that's enough.")
+            print("\n⚠ WARNING: You're very overcaffeinated.")
+        elif game_state.caffeine_level >= 6:
+            # DEATH
+            self.handle_caffeine_overdose(game_state)
+            return
+
         game_state.advance_time(2)
+
+    def handle_caffeine_overdose(self, game_state):
+        """Handle death from too much caffeine"""
+        print()
+        print_separator()
+        print("💀 CARDIAC EVENT 💀")
+        print_separator()
+        print()
+        print("Your heart is racing uncontrollably.")
+        print("The room is spinning.")
+        print("Everything goes dark...")
+        print()
+        print("─────────────────────────────────────")
+        print("GAME OVER: Caffeine Overdose")
+        print("─────────────────────────────────────")
+        print()
+        print(f"Final Score: 0")
+        print(f"Coffees Consumed: {game_state.caffeine_level}")
+        print()
+        print("Achievement Unlocked: 'Heart Attack Speedrun'")
+        print()
+        print("You have been permanently banned from the IT department.")
+        print("Marcus is updating the employee handbook with a new section:")
+        print("'Maximum 2 Coffees Per Incident'")
+        print()
+        print("Maybe moderation is important after all...")
+        print()
+        import sys
+        sys.exit(0)
 
 
 class RedBull(Item):
@@ -120,11 +162,16 @@ class RedBull(Item):
         print("You'll spot even the tiniest details.")
         print()
         print("(But your hands are shaking from all the caffeine...)")
-        
+
         game_state.redbull_consumed = True
-        game_state.caffeine_level = 5
+        game_state.caffeine_level += 2  # Red Bull counts as 2 coffees
         game_state.has_redbull = False
-        
+
+        # Check for death from overcaffeination (6+ coffees total)
+        if game_state.caffeine_level >= 6:
+            Coffee.handle_caffeine_overdose(self, game_state)
+            return
+
         if not game_state.william_quest_complete:
             # Consumed without giving to William
             game_state.add_score(-25, "Consumed William's Red Bull")
@@ -182,7 +229,7 @@ class Donut(Item):
 
 class Methodology(Item):
     """CompTIA Methodology reference sheet"""
-    
+
     def __init__(self, location="it_office"):
         super().__init__(
             'methodology',
@@ -190,9 +237,10 @@ class Methodology(Item):
             'A laminated reference card showing the 7-step troubleshooting process.',
             location,
             takeable=True,
-            consumable=False
+            consumable=False,
+            readable=True
         )
-        
+
     def examine(self, game_state):
         """Examine methodology sheet"""
         print_boxed("COMPTIA TROUBLESHOOTING METHODOLOGY")
@@ -229,15 +277,19 @@ class Methodology(Item):
         print("   - Document problem")
         print("   - Document solution")
         print("   - Document lessons learned")
-        
+
         if not game_state.check_flag('read_methodology'):
             game_state.set_flag('read_methodology', True)
             game_state.add_score(10, "Read methodology")
 
+    def read(self, game_state):
+        """Read methodology sheet - same as examine"""
+        self.examine(game_state)
+
 
 class Sticky(Item):
     """Sticky note with password hint"""
-    
+
     def __init__(self, location="karen_office"):
         super().__init__(
             'sticky_note',
@@ -245,9 +297,10 @@ class Sticky(Item):
             'A yellow sticky note with handwriting.',
             location,
             takeable=True,
-            consumable=False
+            consumable=False,
+            readable=True
         )
-        
+
     def examine(self, game_state):
         """Examine sticky note"""
         print_boxed("STICKY NOTE")
@@ -257,21 +310,63 @@ class Sticky(Item):
         print("  Password: Accounting2024!")
         print()
         print("At least she didn't write her username too...")
-        
+
         if not game_state.check_flag('found_password_sticky'):
             game_state.set_flag('found_password_sticky', True)
             game_state.add_score(5, "Found password note")
+
+    def read(self, game_state):
+        """Read sticky note - same as examine"""
+        self.examine(game_state)
 
 
 def init_items():
     """Initialize all game items"""
     items = {}
-    
-    # Create coffee (multiple can be taken from break room)
-    items['coffee'] = Coffee('break_room')
-    
-    # Red Bull
-    items['redbull'] = RedBull('break_room')
+
+    # Coffee sources around the office (5 total)
+    items['coffee_it_office'] = Coffee(
+        id='coffee_it_office',
+        name='Fresh Cup of Coffee',
+        description='A fresh, steaming cup of coffee from your desk. Still hot.',
+        drink_message='You drink the fresh, hot coffee. Smooth and perfectly brewed.',
+        location='it_office'
+    )
+
+    items['coffee_help_desk'] = Coffee(
+        id='coffee_help_desk',
+        name="Ian's Coffee",
+        description="Ian's cup of coffee from the Help Desk. Smells decent.",
+        drink_message="You drink Ian's coffee. Not bad - he knows how to make a decent cup.",
+        location='help_desk'
+    )
+
+    items['coffee_break_room'] = Coffee(
+        id='coffee_break_room',
+        name='Fresh Pot Coffee',
+        description='Coffee from the fresh pot in the break room. Quality brew.',
+        drink_message='You pour yourself coffee from the fresh pot. Rich and aromatic.',
+        location='break_room'
+    )
+
+    items['coffee_mystery'] = Coffee(
+        id='coffee_mystery',
+        name='Mystery Coffee',
+        description="An old cup of coffee from the break room table. Age unknown. Probably shouldn't drink this.",
+        drink_message="You drink the mystery coffee. It's... lukewarm at best. And tastes vaguely like despair. Why did you do this?",
+        location='break_room'
+    )
+
+    items['coffee_server_room'] = Coffee(
+        id='coffee_server_room',
+        name='Ancient Server Room Coffee',
+        description='A crusty, ancient coffee mug from the server room. This might qualify as a biological hazard.',
+        drink_message='You drink the ancient server room coffee. It tastes like regret and old semiconductors. This was a terrible decision.',
+        location='server_room'
+    )
+
+    # Red Bull - NOT initialized here, obtained through vending machine
+    # items['redbull'] = RedBull('break_room')
     
     # Donut
     items['donut'] = Donut('manager_office')

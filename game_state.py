@@ -42,6 +42,9 @@ class GameState:
         self.coffees_consumed = 0
         self.has_redbull = False
         self.redbull_consumed = False
+
+        # Money system
+        self.money = 0  # Dollars
         
         # NPC interaction flags
         self.talked_to_ian = False
@@ -58,7 +61,7 @@ class GameState:
         # Quest flags
         self.william_quest_started = False
         self.william_quest_complete = False
-        self.william_blocking_break_room = True
+        self.william_blocking_break_room = False
         self.donut_heist_started = False
         self.donut_heist_complete = False
         
@@ -93,33 +96,37 @@ class GameState:
         
     def get_caffeine_level_name(self):
         """Get descriptive caffeine level"""
-        if self.redbull_consumed:
-            return "MAXIMUM (Red Bull)"
+        if self.caffeine_level >= 6:
+            return "CRITICAL - DANGEROUS"
+        elif self.caffeine_level == 5:
+            return "Very Overcaffeinated"
+        elif self.redbull_consumed:
+            return "Ultra Caffeinated (Red Bull)"
         elif self.caffeine_level >= 4:
-            return "Jittery (Too Much)"
+            return "Jittery"
         elif self.caffeine_level >= 2:
             return "Focused (Optimal)"
         elif self.caffeine_level == 1:
             return "Awake"
         else:
             return "None"
-            
+
     def get_focus_description(self):
         """Get focus buff description"""
-        if self.redbull_consumed:
-            return "Ultra Focus (Enhanced perception, but shaky)"
-        elif self.caffeine_level >= 4:
-            return "Overcaffeinated (-10 penalty)"
-        elif self.caffeine_level >= 2:
-            return "Focused (+10 bonus to observation)"
+        if self.caffeine_level >= 6:
+            return "CRITICAL - Seek medical attention"
+        elif self.caffeine_level == 5:
+            return "Dangerously overcaffeinated"
+        elif self.redbull_consumed or self.caffeine_level >= 2:
+            return "Focused (Enhanced perception)"
         elif self.caffeine_level == 1:
             return "Normal"
         else:
             return "Sluggish"
-            
+
     def has_focus_buff(self):
         """Check if player has beneficial focus buff"""
-        return 2 <= self.caffeine_level <= 3 or self.redbull_consumed
+        return self.caffeine_level >= 2 or self.redbull_consumed
         
     def add_score(self, points, reason=""):
         """Add points to score"""
