@@ -11,16 +11,10 @@ Use the CompTIA 7-step troubleshooting methodology to solve the problem before K
 ## Features
 
 - **7-Step Troubleshooting Methodology**: Learn and apply the industry-standard CompTIA process
-- **Coffee & Focus System**: Caffeine affects your ability to spot subtle details (but don't overdo it!)
 - **Side Quests**: Complete William's quest and other optional objectives for bonus points
 - **Multiple NPCs**: Talk to Ian (Help Desk), Karen (the user), Marcus (your manager), and William (retired IT director)
 - **Desktop Computer**: Track your progress and document findings
-- **Multiple Endings**: 5 different endings based on your choices:
-  - Normal Win (complete the ticket properly)
-  - HR Complaint (win, but with consequences)
-  - Caffeine Overdose (too much coffee)
-  - Server Room Disaster (pour coffee on servers)
-  - Pastoral Escape (walk away from IT forever)
+- **Multiple Endings**: 5 different endings based on your choices!
 - **Scoring System**: Earn up to 1000 points through methodology, investigation, and efficiency
 - **Play Time Tracking**: See how long each playthrough takes in real-world time
 
@@ -89,12 +83,10 @@ python game1_main.py
 ### Tips for Success
 
 1. **Talk to everyone** - NPCs provide crucial information
-2. **Drink coffee strategically** - 2-3 coffees = optimal focus for spotting details (don't drink 6!)
-3. **Watch the user** - Observe what they DO, not what they SAY
-4. **Use the desktop** - Track your progress through the methodology
-5. **Explore everything** - There are hidden choices and alternate paths
-6. **Complete side quests** - They provide valuable bonuses and wisdom
-7. **Be careful with liquids near servers** - This should go without saying...
+2. **Watch the user** - Observe what they DO, not what they SAY
+3. **Use the desktop** - Track your progress through the methodology
+4. **Explore everything** - There are hidden choices and alternate paths
+5. **Complete side quests** - They provide valuable bonuses and wisdom
 
 ### The 7-Step Methodology
 
@@ -126,22 +118,11 @@ This game teaches the CompTIA troubleshooting process:
 - **Marcus (Manager)** - Your boss, tracks your progress
 - **William (Retired IT Director)** - Offers wisdom in exchange for a favor
 
-## Items
-
-- **Coffee** - Increases focus (+10 observation bonus at 2-3 cups)
-- **Red Bull** - Maximum focus, but part of William's quest
-- **Methodology Sheet** - Reference for the 7-step process
-- **Donut** - Marcus's donut (optional heist)
-
 ## Scoring
 
 - **Core Methodology**: 400 points (7 steps × varying points)
 - **Bonus Points**: Up to 600 points
-  - Side quests (William, Donut)
-  - Information gathering
-  - Methodology excellence
-  - Coffee optimization
-  - Efficiency bonuses
+  - Side quests
 
 **Ranks:**
 - 950+: Master Troubleshooter
@@ -156,8 +137,6 @@ This game teaches the CompTIA troubleshooting process:
 Karen can't print. Her computer says "No printers found." The printer hardware is fine. The network seems fine. She can access the internet. So what's the problem?
 
 Use your observation skills, talk to people, and follow the methodology to find out!
-
-(Hint: Coffee helps you notice details...)
 
 ## Educational Value
 
@@ -179,7 +158,3 @@ Designed as an interactive training tool for help desk technicians and IT suppor
 Educational use permitted. Created for IT training purposes.
 
 ---
-
-**Have fun troubleshooting!** 
-
-Remember: The truth is in the details. 😊
