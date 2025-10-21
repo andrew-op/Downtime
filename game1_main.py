@@ -11,7 +11,7 @@ from locations import Location, init_locations
 from items import Item, init_items
 from npcs import NPC, init_npcs
 from desktop import DesktopMenu
-from utils import clear_screen, print_boxed, print_separator
+from utils import clear_screen, print_boxed, print_separator, format_dialogue
 
 
 class Game:
@@ -56,10 +56,10 @@ class Game:
         print("Manager Marcus walks over with a coffee mug.\n")
 
         print('Marcus: "Morning! Welcome to the team. I see Ian from Help Desk"')
-        print('        "escalated a ticket to you. Printing problem."\n')
+        print('        "escalated a ticket to you. Printing problem."')
         print('        "Should be straightforward, but the user has an important"')
-        print('        "client meeting coming up."\n')
-        print('        "Let me know if you need anything. Good luck!"\n')
+        print('        "client meeting coming up."')
+        print('        "Let me know if you need anything. Good luck!"')
 
         print("*Marcus walks away*\n")
         
@@ -199,18 +199,16 @@ class Game:
     def move(self, direction):
         """Move to a new location"""
         loc = self.locations[self.state.current_location]
-        
+
         if direction in loc.exits:
             new_location = loc.exits[direction]
-            
-            # Check if movement is allowed
-            if new_location == 'break_room' and self.state.william_blocking_break_room:
-                print("\nWilliam is blocking the doorway to the break room.")
-                print("He's looking at you expectantly...")
+
+            # Check for special exit (outside door)
+            if new_location == 'outside_exit':
+                self.handle_outside_exit()
                 return
 
             self.state.current_location = new_location
-            self.state.advance_time(2)  # Moving takes 2 minutes
             print()
             self.show_location()
         else:
@@ -423,6 +421,112 @@ class Game:
             print()
             print("You decide not to buy anything right now.")
 
+    def handle_outside_exit(self):
+        """Handle player attempting to leave through the outside exit"""
+        print()
+        print_boxed("⚠️  LEAVING THE BUILDING  ⚠️")
+        print()
+        print("You stand at the exit door.")
+        print("Through the glass, you can see the parking lot.")
+        print("Your car is right there.")
+        print()
+        print("You could just... leave. Walk away from all of this.")
+        print("The ticket, the pressure, the technology...")
+        print()
+        print("Walk out and never come back? (yes/no)")
+        print()
+
+        response = input("> ").strip().lower()
+
+        if response in ['yes', 'y']:
+            clear_screen()
+            print()
+            print_boxed("🚪 WALKING AWAY 🚪")
+            print()
+            print("You push open the door.")
+            print("Fresh air hits your face.")
+            print("You don't look back.")
+            print()
+            input("Press Enter...")
+            print()
+            print("You walk to your car, get in, and drive.")
+            print("You don't stop at home.")
+            print("You just... keep driving.")
+            print()
+            input("Press Enter...")
+            clear_screen()
+            print()
+            print_separator()
+            print("SIX MONTHS LATER...")
+            print_separator()
+            print()
+            print("You're standing in a field on a small farm in Vermont.")
+            print("The sun is warm. There's no wifi here.")
+            print("Your phone hasn't had a signal in months.")
+            print()
+            print("You have twelve goats now. You know all their names.")
+            print("Beatrice is your favorite. She headbutted you yesterday.")
+            print()
+            print("Sometimes you think about that ticket you abandoned.")
+            print("Karen probably never got her printing problem fixed.")
+            print("You feel... surprisingly okay with that.")
+            print()
+            input("Press Enter...")
+            print()
+            print("There are no computers here.")
+            print("No tickets. No escalations. No methodology checklists.")
+            print("Just goats, and cheese-making, and the quiet.")
+            print()
+            print("Your former manager Marcus tried calling.")
+            print("You threw your phone in a pond.")
+            print()
+            print("The goats don't judge you for your career choices.")
+            print("They just want hay and occasional head scratches.")
+            print()
+            input("Press Enter for final results...")
+            clear_screen()
+            print()
+            print_separator()
+            print("🐐 ALTERNATE ENDING: PASTORAL ESCAPE 🐐")
+            print_separator()
+            print()
+            print("Final Score: 0 (but are we really counting?)")
+            print(f"Play Time: {self.state.get_real_play_time()}")
+            print(f"Goats Acquired: 12")
+            print(f"IT Career: Abandoned")
+            print(f"Happiness Level: Surprisingly High")
+            print()
+            print("═" * 60)
+            print("ACHIEVEMENT UNLOCKED:")
+            print("═" * 60)
+            print("🏆 'Escape Velocity' - Ran away from IT forever")
+            print("═" * 60)
+            print()
+            print("You technically got fired for job abandonment.")
+            print("But you make excellent goat cheese now.")
+            print("And honestly? That's a win in its own way.")
+            print()
+            print("Sometimes the best troubleshooting methodology is:")
+            print("Step 1: Leave")
+            print("Step 2: Get goats")
+            print("Step 3: Never look back")
+            print()
+            print_separator()
+            print("Thanks for playing Downtime!")
+            print("(You took the name literally)")
+            print_separator()
+            print()
+
+            # Exit the game
+            import sys
+            sys.exit(0)
+        else:
+            print()
+            print("You hesitate, then step back from the door.")
+            print()
+            print("Not today. You have a ticket to close.")
+            print("...probably.")
+
     def handle_pour_command(self, item_name):
         """Handle the pour command"""
         # Check if player has coffee in inventory
@@ -469,13 +573,12 @@ class Game:
         print()
         print("Pour coffee on the servers? This will end VERY badly.")
         print()
-        print("Type 'YES I WANT TO FRY THE SERVERS' to confirm this career-ending decision.")
-        print("(Or just press Enter to reconsider your life choices)")
+        print("Are you sure? (yes/no)")
         print()
 
-        response = input("> ").strip()
+        response = input("> ").strip().lower()
 
-        if response == "YES I WANT TO FRY THE SERVERS":
+        if response in ['yes', 'y']:
             # Remove coffee from inventory before the chaos
             if coffee_item.id in self.state.inventory:
                 self.state.inventory.remove(coffee_item.id)
@@ -543,7 +646,8 @@ class Game:
             print_separator()
             print()
             print("Final Score: -9999 (New record!)")
-            print(f"Time Employed: {self.state.minutes} minutes")
+            print(f"Time Employed: {self.state.get_time_string()}")
+            print(f"Play Time: {self.state.get_real_play_time()}")
             print(f"Servers Destroyed: ALL OF THEM")
             print(f"Cost of Damage: $847,000")
             print(f"Lives Ruined: 1 (yours)")
@@ -723,6 +827,7 @@ class Game:
         print_separator()
         
         print(f"\nTime: {self.state.get_time_string()}")
+        print(f"Play Time: {self.state.get_real_play_time()}")
         print(f"Steps Completed: {self.state.current_step}/7")
         
         if self.state.check_flag('william_quest_complete'):
@@ -731,11 +836,61 @@ class Game:
             print("✓ Donut Heist Complete")
 
         print()
-        print_separator()
-        print("Thanks for playing Downtime: Game 1!")
-        print("You've learned the CompTIA troubleshooting methodology.")
-        print_separator()
-        print()
+
+        # Check for HR complaint ending
+        if self.state.check_flag('bullied_ian'):
+            input("Press Enter to continue...")
+            clear_screen()
+            print()
+            print_separator()
+            print("ONE WEEK LATER...")
+            print_separator()
+            print()
+            print("You're called into Marcus's office.")
+            print()
+            input("Press Enter...")
+            print()
+            print(format_dialogue("Marcus",
+                "We need to talk. I received a complaint from Ian."))
+            print()
+            print(format_dialogue("Marcus",
+                "He says you demanded money from him. Bullied him, actually."))
+            print()
+            print(format_dialogue("Marcus",
+                "That's not how we treat our colleagues here. I don't care if "
+                "you're technically his superior on the org chart."))
+            print()
+            print(format_dialogue("Marcus",
+                "HR has reviewed the incident and... well, you solved the ticket, "
+                "so that's in your favor. But this is a FORMAL WARNING."))
+            print()
+            print(format_dialogue("Marcus",
+                "One more incident like this and you're out. Understood?"))
+            print()
+            print("You nod silently.")
+            print()
+            print_separator()
+            print("⚠ ALTERNATE ENDING: FORMAL WARNING ⚠")
+            print_separator()
+            print()
+            print("You kept your job... barely.")
+            print("But you've earned a reputation as a bully.")
+            print("Ian avoids eye contact with you now.")
+            print()
+            print("Technical skills aren't everything in IT.")
+            print("People skills matter too.")
+            print()
+            print_separator()
+            print("Achievement Unlocked:")
+            print("🏆 'Technically Competent, Morally Questionable'")
+            print_separator()
+            print()
+        else:
+            print_separator()
+            print("Thanks for playing Downtime: Game 1!")
+            print("You've learned the CompTIA troubleshooting methodology.")
+            print_separator()
+            print()
 
         # Exit the game
         import sys

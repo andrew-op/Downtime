@@ -11,12 +11,18 @@ Use the CompTIA 7-step troubleshooting methodology to solve the problem before K
 ## Features
 
 - **7-Step Troubleshooting Methodology**: Learn and apply the industry-standard CompTIA process
-- **Coffee & Focus System**: Caffeine affects your ability to spot subtle details
-- **Side Quests**: Complete William's quest for bonus wisdom and points
+- **Coffee & Focus System**: Caffeine affects your ability to spot subtle details (but don't overdo it!)
+- **Side Quests**: Complete William's quest and other optional objectives for bonus points
 - **Multiple NPCs**: Talk to Ian (Help Desk), Karen (the user), Marcus (your manager), and William (retired IT director)
 - **Desktop Computer**: Track your progress and document findings
-- **Multiple Endings**: Your choices and efficiency determine your final rank
+- **Multiple Endings**: 5 different endings based on your choices:
+  - Normal Win (complete the ticket properly)
+  - HR Complaint (win, but with consequences)
+  - Caffeine Overdose (too much coffee)
+  - Server Room Disaster (pour coffee on servers)
+  - Pastoral Escape (walk away from IT forever)
 - **Scoring System**: Earn up to 1000 points through methodology, investigation, and efficiency
+- **Play Time Tracking**: See how long each playthrough takes in real-world time
 
 ## Installation
 
@@ -83,11 +89,12 @@ python game1_main.py
 ### Tips for Success
 
 1. **Talk to everyone** - NPCs provide crucial information
-2. **Drink coffee strategically** - 2 coffees = optimal focus for spotting details
+2. **Drink coffee strategically** - 2-3 coffees = optimal focus for spotting details (don't drink 6!)
 3. **Watch the user** - Observe what they DO, not what they SAY
 4. **Use the desktop** - Track your progress through the methodology
-5. **Manage your time** - You have until 10:00 AM (60 minutes)
+5. **Explore everything** - There are hidden choices and alternate paths
 6. **Complete side quests** - They provide valuable bonuses and wisdom
+7. **Be careful with liquids near servers** - This should go without saying...
 
 ### The 7-Step Methodology
 
@@ -103,12 +110,13 @@ This game teaches the CompTIA troubleshooting process:
 
 ## Locations
 
-- **IT Office** - Your workspace with a computer
+- **IT Office** - Your workspace with a computer and access to the server room
+- **Server Room** - Climate-controlled room with all the servers (be careful with liquids!)
 - **Hallway** - Central corridor connecting all areas
 - **Help Desk** - Where Ian works
-- **Accounting** - Department where Karen works
+- **Accounting** - Department where Karen works (with an exit to the outside...)
 - **Karen's Office** - The user's workspace
-- **Break Room** - Coffee and... William
+- **Break Room** - Coffee, vending machine, and William
 - **Manager's Office** - Marcus's office
 
 ## NPCs

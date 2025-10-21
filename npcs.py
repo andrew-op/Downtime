@@ -75,13 +75,24 @@ class Ian(NPC):
             choices = [
                 "What exactly did you try?",
                 "Tell me more about the user.",
-                "Leave conversation"
             ]
+
+            # Add money request options if player doesn't have money yet
+            if game_state.money < 2:
+                # Check if player has donut
+                if 'donut' in game_state.inventory:
+                    choices.append("Trade donut for $2")
+
+                # Only show bully option if haven't bullied yet
+                if not game_state.check_flag('bullied_ian'):
+                    choices.append("Demand Ian give you $2")
+
+            choices.append("Leave conversation")
 
             choice = display_choices(choices)
             print()
 
-            if choice == 3:  # Leave
+            if choice == len(choices):  # Leave (always last option)
                 break
             elif choice == 1:
                 print(format_dialogue("Ian",
@@ -102,6 +113,45 @@ class Ian(NPC):
                 print(format_dialogue("Ian",
                     "She's not super tech-savvy, but she's not clueless either. "
                     "She knows her way around the basics."))
+                print()
+            elif "Trade donut for $2" in choices and choice == 3:
+                # Donut trade
+                print(format_dialogue("You",
+                    "Hey Ian, want this donut? I'll trade you for a couple bucks."))
+                print()
+                print(format_dialogue("Ian",
+                    "Oh man, that looks amazing! Yeah, absolutely! Here's $2."))
+                print()
+                print("You give Ian the donut.")
+                print("Ian happily munches on it and hands you $2.")
+                print()
+                game_state.inventory.remove('donut')
+                game_state.money += 2
+                game_state.add_score(10, "Fair trade with Ian")
+                print(f"\n💵 You now have ${game_state.money}")
+                print()
+            elif "Demand Ian give you $2" in choices and (choice == 3 or choice == 4):
+                # Bully option
+                print(format_dialogue("You",
+                    "Ian, I need $2 right now. Hand it over."))
+                print()
+                print(format_dialogue("Ian",
+                    "What? Why do you need-"))
+                print()
+                print(format_dialogue("You",
+                    "Just give me the money, Ian. I'm your superior."))
+                print()
+                print(format_dialogue("Ian",
+                    "...Fine. Here."))
+                print()
+                print("Ian reluctantly hands you $2.")
+                print("He looks uncomfortable and turns back to his work.")
+                print()
+                print("⚠ Ian seems upset about this...")
+                print()
+                game_state.money += 2
+                game_state.set_flag('bullied_ian', True)
+                print(f"\n💵 You now have ${game_state.money}")
                 print()
 
 

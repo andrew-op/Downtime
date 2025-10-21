@@ -154,7 +154,8 @@ def init_locations():
         'ACCOUNTING DEPARTMENT',
         "A quiet office space filled with cubicles. Financial spreadsheets glow on " \
         "various monitors. You can hear the gentle clicking of keyboards and occasional " \
-        "frustrated sighs. Karen's office is to the north.",
+        "frustrated sighs. A reception desk sits near the entrance. Karen's office is to the north. " \
+        "There's an exit door to the south leading outside.",
         objects={
             'cubicles': {
                 'examine': "Rows of accounting cubicles. Most are occupied by people working intently " \
@@ -172,6 +173,18 @@ def init_locations():
                 'examine': "The sound of typing fills the air. Accountants at work.",
                 'take': "Those keyboards belong to the accounting staff.",
                 'aliases': ['keyboard']
+            },
+            'reception desk': {
+                'examine': "A simple wooden desk with a phone, some filing trays, and a small plant. " \
+                          "Nobody's sitting here at the moment. There's a sign-in sheet for visitors.",
+                'take': "The desk is part of the office furniture.",
+                'aliases': ['desk', 'reception']
+            },
+            'exit door': {
+                'examine': "A glass door leading outside to the parking lot. You can see daylight and " \
+                          "freedom beyond it. The door is unlocked.",
+                'take': "You can't take a door.",
+                'aliases': ['door', 'exit', 'outside door']
             }
         }
     )
@@ -402,9 +415,13 @@ def init_locations():
         'w': 'hallway',
         'north': 'karen_office',
         'n': 'karen_office',
+        'south': 'outside_exit',  # Special exit that triggers ending
+        's': 'outside_exit',
         'karen': 'karen_office',
         'office': 'karen_office',
-        'hallway': 'hallway'
+        'hallway': 'hallway',
+        'exit': 'outside_exit',
+        'outside': 'outside_exit'
     }
     
     # Karen's Office

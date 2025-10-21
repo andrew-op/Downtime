@@ -10,9 +10,12 @@ class GameState:
     """Manages all game state variables"""
     
     def __init__(self):
-        # Time tracking
+        # Time tracking (in-game)
         self.start_time = 945  # 9:45 AM in minutes from midnight
         self.minutes = 0  # Minutes elapsed since start
+
+        # Real-world play time tracking
+        self.real_start_time = time.time()  # Unix timestamp when game started
         
         # Location
         self.current_location = "it_office"
@@ -62,7 +65,6 @@ class GameState:
         # Quest flags
         self.william_quest_started = False
         self.william_quest_complete = False
-        self.william_blocking_break_room = False
         self.donut_heist_started = False
         self.donut_heist_complete = False
 
@@ -82,19 +84,30 @@ class GameState:
         self.minutes += minutes
         
     def get_time_string(self):
-        """Get current time as readable string"""
+        """Get current in-game time as readable string"""
         total_minutes = self.start_time + self.minutes
         hours = total_minutes // 60
         mins = total_minutes % 60
-        
+
         # Convert to 12-hour format
         period = "AM" if hours < 12 else "PM"
         display_hours = hours if hours <= 12 else hours - 12
         if display_hours == 0:
             display_hours = 12
-            
+
         return f"{display_hours}:{mins:02d} {period}"
-        
+
+    def get_real_play_time(self):
+        """Get real-world elapsed play time as readable string"""
+        elapsed_seconds = int(time.time() - self.real_start_time)
+        minutes = elapsed_seconds // 60
+        seconds = elapsed_seconds % 60
+
+        if minutes > 0:
+            return f"{minutes} minute{'s' if minutes != 1 else ''} {seconds} second{'s' if seconds != 1 else ''}"
+        else:
+            return f"{seconds} second{'s' if seconds != 1 else ''}"
+
     def get_caffeine_level_name(self):
         """Get descriptive caffeine level"""
         if self.caffeine_level >= 6:

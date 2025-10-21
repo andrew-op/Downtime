@@ -131,9 +131,46 @@ def show_how_to_play():
     get_key()
 
 
+def show_about():
+    """Display about/info screen"""
+    clear_screen()
+    print_title()
+
+    print("                         ABOUT")
+    print()
+    print("-"*70)
+    print()
+    print("  A text-based adventure teaching CompTIA troubleshooting methodology")
+    print("  through an interactive help desk scenario.")
+    print()
+    print("  FEATURES:")
+    print("  • 7-step CompTIA methodology training")
+    print("  • Multiple NPCs with dialogue trees")
+    print("  • Coffee/focus system")
+    print("  • 5 different endings based on your choices")
+    print("  • Side quests and hidden paths")
+    print("  • Real-world play time tracking")
+    print()
+    print("  EDUCATIONAL VALUE:")
+    print("  Learn IT troubleshooting, user interaction skills, problem")
+    print("  investigation techniques, and documentation practices.")
+    print()
+    print("  Perfect for help desk technicians, IT support staff, and anyone")
+    print("  learning CompTIA A+ certification material.")
+    print()
+    print("  Version: 1.0")
+    print("  Created for IT training and education")
+    print()
+    print("-"*70)
+    print()
+    print("              Press any key to return to menu...")
+
+    get_key()
+
+
 def show_menu():
     """Display interactive menu with arrow key navigation"""
-    options = ['Play Game', 'How to Play', 'Exit']
+    options = ['Play Game', 'How to Play', 'About', 'Exit']
     selected = 0  # Currently selected option
 
     while True:
@@ -173,7 +210,10 @@ def show_menu():
             elif selected == 1:  # How to Play
                 show_how_to_play()
                 # Return to menu after viewing instructions
-            elif selected == 2:  # Exit
+            elif selected == 2:  # About
+                show_about()
+                # Return to menu after viewing about
+            elif selected == 3:  # Exit
                 clear_screen()
                 print("\nThanks for considering Downtime!")
                 print("See you next time!\n")

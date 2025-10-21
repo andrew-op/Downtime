@@ -105,6 +105,7 @@ class Coffee(Item):
         print()
         print(f"Final Score: 0")
         print(f"Coffees Consumed: {game_state.caffeine_level}")
+        print(f"Play Time: {game_state.get_real_play_time()}")
         print()
         print("Achievement Unlocked: 'Heart Attack Speedrun'")
         print()
