@@ -21,12 +21,19 @@ def clear_screen():
 
 
 def print_title():
-    """Print the game title banner"""
+    """Print the game title banner with ASCII art"""
     print()
-    print("="*70)
-    print("                        DOWNTIME")
-    print("              Game 1: Karen's Printing Problem")
-    print("="*70)
+    print("╔════════════════════════════════════════════════════════════════════════╗")
+    print("║                                                                        ║")
+    print("║   ██████╗  ██████╗ ██╗    ██╗███╗   ██╗████████╗██╗███╗   ███╗███████╗║")
+    print("║   ██╔══██╗██╔═══██╗██║    ██║████╗  ██║╚══██╔══╝██║████╗ ████║██╔════╝║")
+    print("║   ██║  ██║██║   ██║██║ █╗ ██║██╔██╗ ██║   ██║   ██║██╔████╔██║█████╗  ║")
+    print("║   ██║  ██║██║   ██║██║███╗██║██║╚██╗██║   ██║   ██║██║╚██╔╝██║██╔══╝  ║")
+    print("║   ██████╔╝╚██████╔╝╚███╔███╔╝██║ ╚████║   ██║   ██║██║ ╚═╝ ██║███████╗║")
+    print("║   ╚═════╝  ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝   ╚═╝   ╚═╝╚═╝     ╚═╝╚══════╝║")
+    print("║                                                                        ║")
+    print("║                 Game 1: Karen's Printing Problem                       ║")
+    print("╚════════════════════════════════════════════════════════════════════════╝")
     print()
 
 
@@ -91,7 +98,7 @@ def show_how_to_play():
 
     print("                      HOW TO PLAY")
     print()
-    print("-"*70)
+    print("─"*70)
     print()
     print("OBJECTIVE:")
     print("  Solve Karen's printing problem using the CompTIA troubleshooting")
@@ -124,7 +131,7 @@ def show_how_to_play():
     print("    Plan, Implement, Verify, Document")
     print("  • Talk to everyone and explore all locations")
     print()
-    print("-"*70)
+    print("─"*70)
     print()
     print("              Press any key to return to menu...")
 
@@ -138,7 +145,7 @@ def show_about():
 
     print("                         ABOUT")
     print()
-    print("-"*70)
+    print("─"*70)
     print()
     print("  A text-based adventure teaching CompTIA troubleshooting methodology")
     print("  through an interactive help desk scenario.")
@@ -161,7 +168,7 @@ def show_about():
     print("  Version: 1.0")
     print("  Created for IT training and education")
     print()
-    print("-"*70)
+    print("─"*70)
     print()
     print("              Press any key to return to menu...")
 
@@ -193,7 +200,7 @@ def show_menu():
                 print(f"                        {option}")
 
         print()
-        print("-"*70)
+        print("╚" + "═"*68 + "╝")
 
         # Get user input
         key = get_key()
