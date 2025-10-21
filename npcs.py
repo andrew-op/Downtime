@@ -689,40 +689,20 @@ class William(NPC):
             "Alright, as promised. Here's what 30 years in IT taught me:"))
         print()
         print(format_dialogue("William",
-            "Be OBSERVANT. The answer is usually right in front of you. "
-            "You just have to actually LOOK. Carefully."))
+            "You said your issue was network-related? Printing problems?"))
         print()
         print(format_dialogue("William",
-            "Most problems aren't as complex as you think. Start simple. "
-            "Check the basics first."))
+            "Have you checked WHICH network they're connected to?"))
         print()
         print(format_dialogue("William",
-            "And here's the big one: Watch what the user actually DOES, "
-            "not what they TELL you they're doing."))
-        print()
-        print(format_dialogue("William",
-            "People don't lie on purpose - they just don't observe themselves. "
-            "They'll say they're typing correctly, but they're not watching "
-            "their hands."))
-        print()
-        print(format_dialogue("William",
-            "So go WATCH that user. Don't trust their description. Watch their "
-            "hands. Watch the screen. Watch for the little things."))
-        print()
-        print("*Winks*")
-        print()
-        print(format_dialogue("William",
-            "The truth is in the details, kid."))
-        
+            "Sometimes the obvious stuff is what trips you up."))
+
         print()
         print_separator()
         print("✓ William's Quest Complete!")
         print()
         print("Wisdom Received:")
-        print("  • Be observant and aware")
-        print("  • Start with simple explanations")
-        print("  • Watch what users DO, not what they SAY")
-        print("  • The truth is in the details")
+        print("  • Check which network the user is connected to")
         print_separator()
         
         game_state.william_quest_complete = True
