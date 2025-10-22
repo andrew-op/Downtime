@@ -43,8 +43,8 @@ class Game:
         print("Your first day as an IT Support Technician.")
         print("You've been assigned to solve a user printing issue.")
         print("Use the CompTIA troubleshooting methodology to succeed.\n")
-        print("REMINDER: You must complete all 7 steps, including Step 7:")
-        print("Documentation via the desktop computer in your IT Office.\n")
+        print("REMINDER: You must complete all 7 steps,")
+        print("via the desktop computer in your IT Office.\n")
 
         input("Press Enter to begin...")
         clear_screen()
@@ -234,10 +234,6 @@ class Game:
             
     def take_item(self, item_name):
         """Take an item"""
-        # Alias: "cup" should match coffee items
-        if item_name.lower() == 'cup':
-            item_name = 'coffee'
-
         # Find item in current location
         item = None
         for i in self.items.values():
@@ -318,15 +314,6 @@ class Game:
 
     def use_item(self, item_name):
         """Use an item from inventory or interact with location objects"""
-        # Special case: "use computer" in IT Office
-        if item_name.lower() in ['computer', 'desktop', 'pc'] and self.state.current_location == 'it_office':
-            self.desktop.show(self.state)
-            return
-
-        # Alias: "cup" should match coffee items
-        if item_name.lower() == 'cup':
-            item_name = 'coffee'
-
         # First check inventory items
         item = None
         for item_id in self.state.inventory:
@@ -541,8 +528,6 @@ class Game:
             print_separator()
             print()
 
-            input("Press Enter to exit...")
-
             # Exit the game
             import sys
             sys.exit(0)
@@ -644,23 +629,6 @@ class Game:
             print()
             input("Press Enter...")
             clear_screen()
-            print()
-            print_separator()
-            print("MARCUS ARRIVES")
-            print_separator()
-            print()
-            print('Marcus: "WHAT HAVE YOU DONE?!"')
-            print()
-            print('Marcus: "That was our ENTIRE infrastructure!"')
-            print('        "The authentication server! The file servers!"')
-            print('        "DO YOU HAVE ANY IDEA HOW MUCH DATA WE JUST LOST?!"')
-            print()
-            input("Press Enter...")
-            print()
-            print('Marcus: "This is your FIRST DAY!"')
-            print('        "You were supposed to fix a PRINTER!"')
-            print('        "Not DESTROY THE ENTIRE COMPANY!"')
-            print()
             print("Security escorts you out of the building.")
             print("Your badge access is revoked before you reach the parking lot.")
             print()
@@ -703,8 +671,6 @@ class Game:
             print_separator()
             print()
 
-            input("Press Enter to exit...")
-
             # Exit the game
             import sys
             sys.exit(0)
@@ -719,10 +685,6 @@ class Game:
 
     def examine(self, target):
         """Examine something in detail"""
-        # Alias: "cup" should match coffee items
-        if target.lower() == 'cup':
-            target = 'coffee'
-
         # Check items in location
         for item in self.items.values():
             if item.location == self.state.current_location and not item.taken:
@@ -886,43 +848,70 @@ class Game:
             print("ONE WEEK LATER...")
             print_separator()
             print()
-            print("You're called into Marcus's office.")
+            print("You're summoned to Marcus's office.")
+            print("Someone from HR is already there.")
+            print("This is not good.")
             print()
             input("Press Enter...")
             print()
             print(format_dialogue("Marcus",
-                "We need to talk. I received a complaint from Ian."))
+                "We need to talk. Ian filed a formal complaint."))
             print()
             print(format_dialogue("Marcus",
-                "He says you demanded money from him. Bullied him, actually."))
+                "You... extorted a coworker. For $2. To buy donuts. While fixing a printer."))
+            print()
+            print(format_dialogue("You",
+                "Well, when you say it like that—"))
             print()
             print(format_dialogue("Marcus",
-                "That's not how we treat our colleagues here. I don't care if "
-                "you're technically his superior on the org chart."))
+                "How else would I say it?! You ran a protection racket on an HP LaserJet!"))
+            print()
+            print(format_dialogue("HR Rep",
+                "This qualifies as workplace coercion under company policy."))
             print()
             print(format_dialogue("Marcus",
-                "HR has reviewed the incident and... well, you solved the ticket, "
-                "so that's in your favor. But this is a FORMAL WARNING."))
+                "I talked to the VP. She said, and I quote: 'Fire them. We cannot have "
+                "employees shaking down the Help Desk for donut money.'"))
+            print()
+            input("Press Enter...")
+            print()
+            print(format_dialogue("You",
+                "You're firing me?! Over TWO DOLLARS?!"))
             print()
             print(format_dialogue("Marcus",
-                "One more incident like this and you're out. Understood?"))
+                "We're firing you for EXTORTING two dollars while doing your actual job!"))
             print()
-            print("You nod silently.")
+            print(format_dialogue("Marcus",
+                "That's your legacy. 'Printer Repair Racketeer.' Congratulations."))
+            print()
+            print("🚨 Security escorts you out. 🚨")
+            print()
+            input("Press Enter...")
+            clear_screen()
+            print()
+            print("You pack your desk into a sad cardboard box.")
+            print("Your Star Wars mug. Three mystery USB cables. A fidget spinner.")
+            print()
+            print("On your way out, you pass the printer.")
+            print("It's humming perfectly. Its green light blinks.")
+            print("You swear it looks smug.")
             print()
             print_separator()
-            print("⚠ ALTERNATE ENDING: FORMAL WARNING ⚠")
+            print("💥 ALTERNATE ENDING: SPECTACULARLY FIRED 💥")
             print_separator()
             print()
-            print("You kept your job... barely.")
-            print("But you've earned a reputation as a bully.")
-            print("Ian avoids eye contact with you now.")
+            print(f"Employment Duration: {self.state.get_time_string()}")
+            print("Tickets Solved: 1")
+            print("Money Extorted: $2.00")
+            print("Career Speedrun: World Record")
             print()
-            print("Technical skills aren't everything in IT.")
-            print("People skills matter too.")
+            print("You solved the ticket. You destroyed your career.")
+            print("Your mom thinks it was corporate downsizing.")
+            print("You will never tell her the truth.")
             print()
             print_separator()
             print("Achievement Unlocked:")
-            print("🏆 'Technically Competent, Morally Questionable'")
+            print("🏆 'The $2 Disaster: A Masterclass in Poor Decisions'")
             print_separator()
             print()
         else:
@@ -931,8 +920,6 @@ class Game:
             print("You've learned the CompTIA troubleshooting methodology.")
             print_separator()
             print()
-
-        input("Press Enter to exit...")
 
         # Exit the game
         import sys

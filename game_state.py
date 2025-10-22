@@ -201,15 +201,15 @@ class GameState:
     def get_rank(self):
         """Get rank based on final score"""
         score = self.score
-        if score >= 950:
+        if score >= 650:
             return "MASTER TROUBLESHOOTER"
-        elif score >= 850:
+        elif score >= 580:
             return "EXPERT TECHNICIAN"
-        elif score >= 750:
+        elif score >= 515:
             return "SKILLED PROFESSIONAL"
-        elif score >= 650:
+        elif score >= 445:
             return "COMPETENT SUPPORT"
-        elif score >= 500:
+        elif score >= 345:
             return "ADEQUATE PERFORMANCE"
         else:
             return "NEEDS IMPROVEMENT"

@@ -15,7 +15,7 @@ Use the CompTIA 7-step troubleshooting methodology to solve the problem before K
 - **Multiple NPCs**: Talk to Ian (Help Desk), Karen (the user), Marcus (your manager), and William (retired IT director)
 - **Desktop Computer**: Track your progress and document findings
 - **Multiple Endings**: 5 different endings based on your choices!
-- **Scoring System**: Earn up to 1000 points through methodology, investigation, and efficiency
+- **Scoring System**: Earn up to 685 points through methodology, investigation, and efficiency
 - **Play Time Tracking**: See how long each playthrough takes in real-world time
 
 ## Installation
@@ -121,16 +121,20 @@ This game teaches the CompTIA troubleshooting process:
 ## Scoring
 
 - **Core Methodology**: 400 points (7 steps × varying points)
-- **Bonus Points**: Up to 600 points
-  - Side quests
+- **Bonus Points**: Up to 285 points
+  - Side quests (William's Quest, Donut Heist)
+  - Investigation bonuses
+  - Optimal caffeine management
+
+**Maximum Possible Score: 685 points**
 
 **Ranks:**
-- 950+: Master Troubleshooter
-- 850+: Expert Technician
-- 750+: Skilled Professional
-- 650+: Competent Support
-- 500+: Adequate Performance
-- Below: Needs Improvement
+- 650+: Master Troubleshooter
+- 580+: Expert Technician
+- 515+: Skilled Professional
+- 445+: Competent Support
+- 345+: Adequate Performance
+- Below 345: Needs Improvement
 
 ## The Problem (No Spoilers!)
 

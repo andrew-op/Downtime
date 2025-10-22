@@ -43,27 +43,12 @@ class Ian(NPC):
                 "Hey! You must be the new IT support. Thank god you're here."))
             print()
             print(format_dialogue("Ian",
-                "I've been working on this printing issue for Karen in Accounting "
-                "for the last 20 minutes and I'm getting nowhere."))
+                "I've been troubleshooting Karen's printing issue for 20 minutes. "
+                "Hardware's fine, network's fine, but she can't print. 'No printers found.'"))
             print()
             print(format_dialogue("Ian",
-                "She can't print to the network printer. I verified the printer "
-                "is powered on, has paper, no jams... The hardware is fine."))
-            print()
-            print(format_dialogue("Ian",
-                "I even pinged her workstation - network connection looks good. "
-                "She can access the internet just fine."))
-            print()
-            print(format_dialogue("Ian",
-                "But her computer says 'No printers found' when she tries to print. "
-                "I can't figure it out."))
-            print()
-            print(format_dialogue("Ian",
-                "I escalated it to you because, well... it's weird. And she has an "
-                "important client meeting coming up."))
-            print()
-            print(format_dialogue("Ian",
-                "Her office is in Accounting. East from the hallway. Good luck!"))
+                "I'm stumped. She's got a client meeting coming up, so it's urgent. "
+                "Her office is in Accounting, east from the hallway."))
 
             game_state.talked_to_ian = True
             game_state.add_score(10, "Talked to Ian")
@@ -133,6 +118,13 @@ class Ian(NPC):
                 game_state.add_score(10, "Fair trade with Ian")
                 print(f"\n💵 You now have ${game_state.money}")
                 print()
+
+                # Award donut heist achievement for successful trade
+                if not game_state.check_flag('donut_heist_complete'):
+                    print("Achievement Unlocked: 'The Donut Heist'")
+                    game_state.set_flag('donut_heist_complete', True)
+                    game_state.add_score(40, "Donut Heist complete")
+                    print()
             elif "Can I borrow $2?" in choices and choice == 3:
                 # Polite ask - Ian suggests food trade
                 print(format_dialogue("Ian",
@@ -371,37 +363,17 @@ class Karen(NPC):
         """After telling Karen about the network issue - returns False if player leaves"""
         if not game_state.karen_problem_fixed:
             print(format_dialogue("Karen",
-                "The GUEST network?! Oh no... I must have clicked the wrong one "
-                "when I connected this morning!"))
+                "OH. MY. GOD. The GUEST network?! I'm the worst employee EVER!"))
+            print()
+            print("*Karen furiously clicks through menus *")
+            print("*Disconnects > Corp_Network > SMASH that Print button*")
+            print()
+            print("*VRRRRRRRR - The printer springs to life*")
+            print("*Paper shoots out like it's late for a meeting too*")
             print()
             print(format_dialogue("Karen",
-                "Let me disconnect and connect to the right network..."))
-            print()
-            print("*Karen clicks the WiFi icon*")
-            print()
-            print("*She disconnects from Guest_WiFi*")
-            print()
-            print("*She selects Corp_Network from the list*")
-            print()
-            print("*Enters the password...*")
-            print()
-            print("*Connected to Corp_Network*")
-            print()
-            print(format_dialogue("Karen",
-                "Okay, I'm connected to Corp_Network now. Let me try printing..."))
-            print()
-            print("*Karen opens her document and clicks Print*")
-            print()
-            print("*Print dialog opens...*")
-            print()
-            print("*Accounting_Printer_Floor2 appears in the list!*")
-            print()
-            print("*She clicks Print*")
-            print()
-            print("*The printer by the window whirs to life and prints the document*")
-            print()
-            print(format_dialogue("Karen",
-                "IT WORKED! The printer shows up now! Oh thank you so much!"))
+                "IT'S PRINTING! IT'S ACTUALLY PRINTING! You're my HERO! "
+                "I'm naming my firstborn after you!"))
 
             game_state.karen_problem_fixed = True
             game_state.steps_complete[5] = True  # Implementation

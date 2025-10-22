@@ -136,14 +136,15 @@ class RedBull(Item):
         """Examine Red Bull"""
         print_boxed("SUGAR-FREE RED BULL")
         print()
-        print("A cold can of Sugar-Free Red Bull.")
-        print("There's a sticky note attached:")
+        print("A cold can of Sugar-Free Red Bull from the vending machine.")
+        print("Still cold from the refrigerated unit.")
         print()
-        print("  'William's - Do NOT touch!'")
-        print()
-        
-        if not game_state.william_quest_started:
-            print("Maybe William would appreciate getting this back?")
+
+        if game_state.william_quest_started and not game_state.william_quest_complete:
+            print("This is what William asked for.")
+            print("You should give it to him to complete his quest.")
+        elif not game_state.william_quest_started:
+            print("William mentioned wanting one of these...")
             
     def use(self, game_state):
         """Drink the Red Bull"""
@@ -244,17 +245,18 @@ class Donut(Item):
         print("You devour the donut in three bites.")
         print("It's delicious. Absolutely worth it.")
         print()
-        
-        if not game_state.check_flag('donut_heist_complete'):
-            print("Achievement Unlocked: 'The Donut Heist'")
-            game_state.set_flag('donut_heist_complete', True)
-            game_state.add_score(50, "Donut Heist complete")
+
+        if not game_state.check_flag('ate_donut'):
+            print("Achievement Unlocked: 'Self-Indulgence'")
+            game_state.set_flag('ate_donut', True)
+            game_state.add_score(10, "Ate Marcus's donut")
         else:
             game_state.add_score(5, "Tasty donut")
-            
+
         print()
         print("(Hopefully Marcus doesn't notice...)")
-        
+        print("(You probably should have traded this to Ian for $2 instead...)")
+
         game_state.advance_time(2)
 
 
