@@ -33,7 +33,7 @@ class Game:
         
     def show_intro(self):
         """Display game introduction"""
-        print_boxed("DOWNTIME: GAME 1")
+        print_boxed("DOWNTIME")
         print("\n" + "="*70)
         print("           KAREN'S PRINTING PROBLEM")
         print("           A Help Desk Training Adventure")
@@ -53,17 +53,18 @@ class Game:
         print_boxed("YOUR OFFICE - 9:45 AM")
         print()
         print("You sit at your new desk in the IT Support office.")
-        print("Your computer displays a fresh ticket in the queue.\n")
-
-        print("Manager Marcus walks over with a coffee mug.\n")
-
-        print('Marcus: "Morning! Welcome to the team. I see Ian from Help Desk"')
-        print('        "escalated a ticket to you. Printing problem."')
-        print('        "Should be straightforward, but the user has an important"')
-        print('        "client meeting coming up."')
-        print('        "Let me know if you need anything. Good luck!"')
-
-        print("*Marcus walks away*\n")
+        print("Your computer displays a fresh ticket in the queue.")
+        print()
+        print("Manager Marcus walks over with a coffee mug.")
+        print()
+        print('Marcus: "Morning! Welcome to the team. I see Ian from Help Desk')
+        print('         escalated a ticket to you. Printing problem.')
+        print('         Should be straightforward, but the user has an important')
+        print('         client meeting coming up.')
+        print('         Let me know if you need anything. Good luck!"')
+        print()
+        print("*Marcus walks away*")
+        print()
         
         input("Press Enter to continue...")
         self.state.current_location = "it_office"
