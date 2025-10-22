@@ -43,6 +43,8 @@ class Game:
         print("Your first day as an IT Support Technician.")
         print("You've been assigned to solve a user printing issue.")
         print("Use the CompTIA troubleshooting methodology to succeed.\n")
+        print("REMINDER: You must complete all 7 steps, including Step 7:")
+        print("Documentation via the desktop computer in your IT Office.\n")
 
         input("Press Enter to begin...")
         clear_screen()
@@ -232,6 +234,10 @@ class Game:
             
     def take_item(self, item_name):
         """Take an item"""
+        # Alias: "cup" should match coffee items
+        if item_name.lower() == 'cup':
+            item_name = 'coffee'
+
         # Find item in current location
         item = None
         for i in self.items.values():
@@ -312,6 +318,15 @@ class Game:
 
     def use_item(self, item_name):
         """Use an item from inventory or interact with location objects"""
+        # Special case: "use computer" in IT Office
+        if item_name.lower() in ['computer', 'desktop', 'pc'] and self.state.current_location == 'it_office':
+            self.desktop.show(self.state)
+            return
+
+        # Alias: "cup" should match coffee items
+        if item_name.lower() == 'cup':
+            item_name = 'coffee'
+
         # First check inventory items
         item = None
         for item_id in self.state.inventory:
@@ -526,6 +541,8 @@ class Game:
             print_separator()
             print()
 
+            input("Press Enter to exit...")
+
             # Exit the game
             import sys
             sys.exit(0)
@@ -686,6 +703,8 @@ class Game:
             print_separator()
             print()
 
+            input("Press Enter to exit...")
+
             # Exit the game
             import sys
             sys.exit(0)
@@ -700,6 +719,10 @@ class Game:
 
     def examine(self, target):
         """Examine something in detail"""
+        # Alias: "cup" should match coffee items
+        if target.lower() == 'cup':
+            target = 'coffee'
+
         # Check items in location
         for item in self.items.values():
             if item.location == self.state.current_location and not item.taken:
@@ -908,6 +931,8 @@ class Game:
             print("You've learned the CompTIA troubleshooting methodology.")
             print_separator()
             print()
+
+        input("Press Enter to exit...")
 
         # Exit the game
         import sys

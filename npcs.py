@@ -82,6 +82,9 @@ class Ian(NPC):
                 # Check if player has donut
                 if 'donut' in game_state.inventory:
                     choices.append("Trade donut for $2")
+                else:
+                    # If player doesn't have donut yet, offer polite ask option
+                    choices.append("Can I borrow $2?")
 
                 # Only show bully option if haven't bullied yet
                 if not game_state.check_flag('bullied_ian'):
@@ -129,6 +132,18 @@ class Ian(NPC):
                 game_state.money += 2
                 game_state.add_score(10, "Fair trade with Ian")
                 print(f"\n💵 You now have ${game_state.money}")
+                print()
+            elif "Can I borrow $2?" in choices and choice == 3:
+                # Polite ask - Ian suggests food trade
+                print(format_dialogue("Ian",
+                    "Oh man, I'd love to help you out, but I only have enough cash for "
+                    "lunch today. Payday isn't until Friday..."))
+                print()
+                print(format_dialogue("Ian",
+                    "But hey, if you could find me something to eat, I'd totally trade "
+                    "you the $2 for it. I'm starving and I haven't had breakfast yet."))
+                print()
+                print("(Ian wants food in exchange for $2.)")
                 print()
             elif "Demand Ian give you $2" in choices and (choice == 3 or choice == 4):
                 # Bully option
