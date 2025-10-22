@@ -302,6 +302,10 @@ class Game:
         if item.id == 'laptop' and npc.id == 'marcus':
             print("\nYou should talk to Marcus if you want to give him the laptop.")
             print("(Hint: Use 'talk marcus' to start a conversation)")
+        # Redirect Red Bull giving to dialogue option
+        elif item.id == 'redbull' and npc.id == 'william':
+            print("\nYou should talk to William if you want to give him the Red Bull.")
+            print("(Hint: Use 'talk william' to start a conversation)")
         else:
             # Default response for other items/NPCs
             print(f"\n{npc.name} doesn't seem interested in {item.name}.")
@@ -390,6 +394,11 @@ class Game:
             print(f"You only have ${self.state.money}.")
             print()
             print("(You need to find $2 to buy the Red Bull.)")
+
+            # Set flag that player now knows they need money
+            if not self.state.knows_needs_money:
+                self.state.knows_needs_money = True
+
             return
 
         # Player has enough money
@@ -719,6 +728,14 @@ class Game:
         obj = loc.get_object(target)
         if obj and 'examine' in obj:
             print(f"\n{obj['examine']}")
+
+            # Special handling for vending machine - set flag that player knows they need money
+            if target.lower() in ['vending machine', 'vending', 'machine'] and self.state.current_location == 'break_room':
+                if not self.state.knows_needs_money and self.state.money < 2:
+                    print()
+                    print("(You need $2 to buy the Red Bull.)")
+                    self.state.knows_needs_money = True
+
             return
 
         print(f"I don't see {target} here.")

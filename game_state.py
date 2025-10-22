@@ -67,6 +67,7 @@ class GameState:
         self.william_quest_complete = False
         self.donut_heist_started = False
         self.donut_heist_complete = False
+        self.knows_needs_money = False  # Player has discovered they need $2
 
         # Solution implementation
         self.told_karen_about_network = False

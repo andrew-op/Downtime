@@ -77,8 +77,8 @@ class Ian(NPC):
                 "Tell me more about the user.",
             ]
 
-            # Add money request options if player doesn't have money yet
-            if game_state.money < 2:
+            # Add money request options if player knows they need money and doesn't have it yet
+            if game_state.knows_needs_money and game_state.money < 2:
                 # Check if player has donut
                 if 'donut' in game_state.inventory:
                     choices.append("Trade donut for $2")
