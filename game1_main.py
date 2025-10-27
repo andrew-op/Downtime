@@ -528,6 +528,7 @@ class Game:
             print("(You took the name literally)")
             print_separator()
             print()
+            input("Press Enter to close game...")
 
             # Exit the game
             import sys
@@ -671,6 +672,7 @@ class Game:
             print("(In the most literal sense possible)")
             print_separator()
             print()
+            input("Press Enter to close game...")
 
             # Exit the game
             import sys
@@ -917,10 +919,12 @@ class Game:
             print()
         else:
             print_separator()
-            print("Thanks for playing Downtime: Game 1!")
+            print("Thanks for playing Downtime!")
             print("You've learned the CompTIA troubleshooting methodology.")
             print_separator()
             print()
+
+        input("Press Enter to close game...")
 
         # Exit the game
         import sys

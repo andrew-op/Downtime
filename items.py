@@ -115,6 +115,7 @@ class Coffee(Item):
         print()
         print("Maybe moderation is important after all...")
         print()
+        input("Press Enter to close game...")
         import sys
         sys.exit(0)
 
